@@ -1,0 +1,56 @@
+#main-title{
+    margin-left: 7px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: large;
+    font-weight: bold;
+}
+
+.risk-table thead{
+    background-color: #ddd;
+}
+
+.servicesList {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+.servicesList li {
+    color: #fff;
+    position: relative;
+    padding: 40px;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    z-index: 2;
+}
+.purple {
+    background: #8460a4;
+}
+.servicesList li:hover {
+    transform: scale(1.1,1.1);
+    z-index: 99;
+}
+
+.servicesList li:hover {
+    transform: scale(1.1,1.1);
+    z-index: 99;
+}
+.pink {
+    background: #FF6863;
+}
+.servicesList li:hover {
+    transform: scale(1.1,1.1);
+    z-index: 99;
+}
+.servicesList li:hover {
+    transform: scale(1.1,1.1);
+    z-index: 99;
+}
+.blue {
+    background: #3DCEC7;
+}
+.servicesList li:hover {
+    transform: scale(1.1,1.1);
+    z-index: 99;
+}
