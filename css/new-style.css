@@ -5,10 +5,10 @@
     font-weight: bold;
 }
 
-.risk-table thead{
-    background-color: #ddd;
+.table-bordered thead{
+    background-color: #e3e3e3;
+    width: 100%;
 }
-
 .servicesList {
     margin: 0px;
     padding: 0px;
@@ -53,4 +53,30 @@
 .servicesList li:hover {
     transform: scale(1.1,1.1);
     z-index: 99;
+}
+
+.navbar-header {
+    background: #18af91;
+    width: 100%;
+    position: fixed;
+}
+
+.brand-logo {
+    margin-top: -7px;
+    height: auto;
+    width: 130px;
+}
+img {
+    vertical-align: middle;
+    border: 0;
+}
+
+.navbar-left {
+    padding-top: 30px;
+}
+
+.table-content {
+    font-family: "museo-sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-size: small;
+    color: darkslategrey;
 }
