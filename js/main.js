@@ -49,11 +49,12 @@ $(document).ready(function () {
 
     function showCustomerOverview () {
         var getCustomerOverview = "http://localhost/getallcompanies";
-        var source   = $("#ribbon-template").html();
+        var source = $("#ribbon-template").html();
+        var sourceDisplay = $("#customer-overview-template").html();
+
         var template = Handlebars.compile(source);
-
-        //var widgetRenderer = Handlebars.compile(widgetTemplate);
-
+        var templateDisplay = Handlebars.compile(sourceDisplay);
+        debugger;
 
         $.ajax({
             url: navapp.clientLocation + getCustomerOverviewEP + "?id=" + navapp.id, //TO DO Get this from config
@@ -63,8 +64,9 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-                $("#ribbon-container").html(template(data));
-debugger;
+                $("#main-container").html(template(data));
+                $("#main-container").append(templateDisplay(data));
+
             }
         }).fail(function (err) {
 

@@ -60,7 +60,7 @@
 </div>
 
 
-<div id="ribbon-container"></div>
+<div id="main-container"></div>
 <script>
     var navapp = {
         endpoint: "ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/",
@@ -68,7 +68,7 @@
     }
 </script>
 
-
+fer
 
 <!-- Tabs -->
 <div id="maintabs" style="display: none">
@@ -101,6 +101,39 @@
 <!--TEMPLATES-->
 
 <script id="ribbon-template" type="text/x-handlebars-template">
+    <header> I AM RIBBON--
+        Customer Name: {{companyname}} <br>
+        Email: {{email}} <br>
+        Phone: {{phone}}<br>
+    </header>
+    <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
+    <footer class='module-footer'>
+    </footer>
+</script>
+
+<script id="customer-overview-template" type="text/x-handlebars-template">
+    <header>
+        I AM PANEL WINDOW--
+        Customer Name: {{fname}} + {{lname}}<br>
+        ID: {{id}}<br>
+        Email: {{email}}<br>
+    </header>
+    <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
+    <footer class='module-footer'>
+    </footer>
+</script>
+
+<script id="call-center-template" type="text/x-handlebars-template">
+    <header>
+        Customer Name: {{companyname}}
+        Email: {{email}}
+    </header>
+    <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
+    <footer class='module-footer'>
+    </footer>
+</script>
+
+<script id="social-media-template" type="text/x-handlebars-template">
     <header>
         Customer Name: {{companyname}}
         Email: {{email}}
