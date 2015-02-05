@@ -1,5 +1,7 @@
 process.env.NODE_ENV = "production";
+var mainEndPoint = "http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/";
 
+var mc = (require('../mainConfig.js')());
 var request = require('request');
 
 var allowCrossDomain = function (req, res, next) {
@@ -34,31 +36,28 @@ app.configure('production', function () {
     app.use(express.static(__dirname + './../', { maxAge: oneYear }));
     console.log("SERVING PROUDLY ALL YOUR NEEDS !!!");
 
-/*    ***********************************
-   ***** End points Starting Here********
-   ************************************ */
+    /*    ***********************************
+     ***** End points Starting Here********
+     ************************************ */
     //This is fired on the applicatino startup
-    app.get('/getallcompanies', function(req, res) {
+    app.get('/getallcompanies', function (req, res) {
 
-        var mainEndPoint = "http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/";
+        //var mainEndPoint = "http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/";
 
-
-    var solrGetCompanies = mainEndPoint + "solr/select?q=isCompany:true&fl=fname,lname,id,email,companyname&wt=json&indent=true";
-
-        console.log("this is my mainendpoint" + solrGetCompanies);
+        //var solrGetCompanies = mainEndPoint + "solr/select?q=isCompany:true&fl=fname,lname,id,email,companyname&wt=json&indent=true";
 
 
         try {
-            request(solrGetCompanies, function (error, response, companies) {
+            request(mc.solrEP.SOLR + mc.solrEP.getAllCompaniesInitialStart, function (error, response, companies) {
 
                 if (!error && response.statusCode === 200) {
 
-                    var jobsResultSet = JSON.parse(companies);
+                    var allCompanies = JSON.parse(companies);
                     //todo. Add another layer of defense regarding user location???
 
-                    return res.send(jobsResultSet.response);
+                    return res.send(allCompanies.response);
                 } else {
-                    return res.send("Points of Light is currently not available. Please try later.", 500);
+                    return res.send("Companie not available. Please try later.", 500);
                 }
             });
         }
@@ -67,24 +66,18 @@ app.configure('production', function () {
         }
     });
 
-    app.post('/getcustomeroverview', function(req, res) {
+    app.get('/getcustomeroverview', function (req, res) {
 
         var companyId = req.param('id');
 
-
-   console.log("get cusotmer overview");
-
-        var mainEndPoint = "http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/";
-        var solrGetOverview = mainEndPoint + "solr/select?q=id:" + companyId + "&wt=json&indent=true";
-
+        var query = mc.solrEP.SOLR + mc.solrEP.getCustomerOverview + companyId + "&wt=json&indent=true";
         try {
-            request(solrGetOverview, function (error, response, company) {
+            request(query, function (error, response, company) {
 
                 if (!error && response.statusCode === 200) {
 
                     var customerOverview = JSON.parse(company);
-                    //todo. Add another layer of defense regarding user location???
-                    debugger;
+
                     return res.send(customerOverview.response.docs[0]);
                 } else {
                     return res.send("Points of Light is currently not available. Please try later.", 500);
@@ -96,7 +89,28 @@ app.configure('production', function () {
         }
     });
 
+    app.get('/getlogs', function (req, res) {
 
+        var companyId = req.param('id');
+//http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/select?q=companyid:1&wt=json&indent=true
+        var query = mc.solrEP.SOLR + mc.solrEP.getCallLogs + companyId + "&wt=json&indent=true";
+        try {
+            request(query, function (error, response, company) {
+
+                if (!error && response.statusCode === 200) {
+
+                    var customerOverview = JSON.parse(company);
+
+                    return res.send(customerOverview.response.docs[0]);
+                } else {
+                    return res.send("Points of Light is currently not available. Please try later.", 500);
+                }
+            });
+        }
+        catch (err) {
+            return res.send(err, 500);
+        }
+    });
 
 
 });

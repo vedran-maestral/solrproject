@@ -2,10 +2,8 @@ $(document).ready(function () {
 
    var getCompaniesEP = "getallcompanies",
        getCustomerOverviewEP = "getcustomeroverview",
-       getCallcenterEP = "",
+       getCallCenterLogEP = "getlogs",
        getSocialMediaEP = "";
-
-    var mainIntroQuery = "solr/select?q=isCompany:true&fl=fname,lname&wt=json&indent=true";
 
     $.ajax({
         url: navapp.clientLocation + getCompaniesEP, //TO DO Get this from config
@@ -42,9 +40,8 @@ $(document).ready(function () {
 
     //Register event handlers
     $("#customer-overview").on("click", showCustomerOverview);
-    $("#call-center").on("click", showCallCenter);
+    $("#call-center").on("click", showCallCenterLogs);
     $("#social-media").on("click", showSocialMedia);
-
 
 
     function showCustomerOverview () {
@@ -60,7 +57,7 @@ $(document).ready(function () {
             url: navapp.clientLocation + getCustomerOverviewEP + "?id=" + navapp.id, //TO DO Get this from config
             //data: JSON.stringify(navapp),
             contentType: "text/plain",
-            type: 'POST',
+            type: 'GET',
             dataType: "json",
             crossDomain: true,
             success: function (data) {
@@ -77,13 +74,14 @@ $(document).ready(function () {
 
     };
 
-    function showCallCenter () {
+    function showCallCenterLogs () {
+
+        debugger;
         $.ajax({
-            url: getCompanies, //TO DO Get this from config
+            url: navapp.clientLocation + getCallCenterLogEP, //TO DO Get this from config
             data: "",//JSON.stringify(stuffToSend),
             contentType: "text/plain",
             type: 'GET',
-            //async: false,
             dataType: "json",
             crossDomain: true,
             success: function (data) {
@@ -94,7 +92,7 @@ $(document).ready(function () {
         }).done(function () {
 
         });
-        alert("I am call center");
+
     };
 
     function showSocialMedia () {
