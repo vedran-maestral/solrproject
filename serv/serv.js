@@ -42,13 +42,8 @@ app.configure('production', function () {
     //This is fired on the applicatino startup
     app.get('/getallcompanies', function (req, res) {
 
-        //var mainEndPoint = "http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/";
-
-        //var solrGetCompanies = mainEndPoint + "solr/select?q=isCompany:true&fl=fname,lname,id,email,companyname&wt=json&indent=true";
-
-
         try {
-            request(mc.solrEP.SOLR + mc.solrEP.getAllCompaniesInitialStart, function (error, response, companies) {
+            request(mc.solrEP.SOLR + mc.solrEP.getAllCompaniesInitialStart + "&rows=15", function (error, response, companies) {
 
                 if (!error && response.statusCode === 200) {
 
@@ -70,7 +65,7 @@ app.configure('production', function () {
 
         var companyId = req.param('id');
 
-        var query = mc.solrEP.SOLR + mc.solrEP.getCustomerOverview + companyId + "&wt=json&indent=true";
+        var query = mc.solrEP.SOLR + mc.solrEP.getCustomerOverview + companyId + "&wt=json&indent=true&rows=25";
         try {
             request(query, function (error, response, company) {
 
@@ -93,7 +88,7 @@ app.configure('production', function () {
 
         var companyId = req.param('id');
 //http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/select?q=companyid:1&wt=json&indent=true
-        var query = mc.solrEP.SOLR + mc.solrEP.getCallLogs + companyId + "&fq=isCompany:false&wt=json&indent=true"; // and is social=false;
+        var query = mc.solrEP.SOLR + mc.solrEP.getCallLogs + companyId + "&fq=isCompany:false&rows=25&wt=json&indent=true"; // and is social=false;
         try {
             request(query, function (error, response, company) {
 
@@ -136,7 +131,6 @@ app.configure('production', function () {
     });
 
     app.get('/getsinglecompany', function (req, res) {
-        console.log("is it getting inside")
 
         var companyId = req.param('id');
 
@@ -160,8 +154,27 @@ app.configure('production', function () {
         }
     });
 
+    app.get('/searchasyoutype', function (req, res) {
 
+        var searchTerm = req.param('id');
 
+        var query = mc.solrEP.SOLR + mc.solrEP.searchAsYouType + searchTerm + "~" + "&wt=json&rows=25&indent=true";
 
+        try {
+            request(query, function (error, response, socialdata) {
+
+                if (!error && response.statusCode === 200) {
+                    var customerOverview = JSON.parse(socialdata);
+
+                    return res.send(customerOverview.response.docs);
+                } else {
+                    return res.send("Points of Light is currently not available. Please try later.", 500);
+                }
+            });
+        }
+        catch (err) {
+            return res.send(err, 500);
+        }
+    });
 });
 app.listen(80);

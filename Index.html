@@ -11,6 +11,7 @@
 
 <link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>
 <link rel="stylesheet" href="css/new-style.css" type="text/css"/>
+<link rel="stylesheet" href="css/messenger.css" type="text/css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -32,23 +33,38 @@
 
 </head>
 <body>
-
 <div class="navbar-form navbar-left" role="search">
-    <div class="form-group">
-        <input id="search-id-text" type="text" class="form-control" placeholder="Search by id">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="input-group custom-search-form">
+                    <input id="search-id-text" type="text" class="form-control" placeholder="Search by id">
+              <span class="input-group-btn">
+              <button id="searchid-button" class="btn btn-default" type="button">
+                  <span  class="glyphicon glyphicon-search"></span>
+              </button>
+             </span>
+                </div><!-- /input-group -->
+            </div><!--col-6-->
+            <div class="col-lg-3">
+                <div class="input-group custom-search-form">
+                    <input id="search-text" type="text" class="form-control" placeholder="Search by Company Name">
+              <span class="input-group-btn">
+              <button class="btn btn-default" type="button">
+                  <span class="glyphicon glyphicon-search"></span>
+              </button>
+             </span>
+                </div><!-- /input-group -->
+            </div><!--col-6-->
+
+        </div>
     </div>
-    <button id="searchid-button" class="btn btn-default">Search ID</button>
-    <div class="form-group">
-        <input style="margin-left:100px" type="text" class="form-control" placeholder="Search by name">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
 </div>
 
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <!-- Table -->
-    <table id="navigator-table" class="table risk-table table-hover">
-        <caption>Hover Table Layout</caption>
+    <table id="navigator-table" class="table risk-table table-hover ">
         <thead>
         <tr>
             <th>Company Name</th>
@@ -66,18 +82,21 @@
 </div>
 
 
+<div id="paginator"></div>
+
 <script>
     var navapp = {
         endpoint: "ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/",
         clientLocation: "http://localhost/"
     }
 </script>
-<div class="navbar-center"><a href="http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/update?stream.body=<delete><query>*:*</query></delete>"
-                              target="_blank">Delete INDEX</a></div>
+<div class="navbar-center"><a
+        href="http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/update?stream.body=<delete><query>*:*</query></delete>"
+        target="_blank">Delete INDEX</a></div>
 
-<div class="navbar-center"><a href="http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/update?stream.body=<commit/>"
-                              target="_blank">Commit Delete</a></div>
-
+<div class="navbar-center"><a
+        href="http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/update?stream.body=<commit/>"
+        target="_blank">Commit Delete</a></div>
 
 
 <!-- Tabs -->
@@ -142,7 +161,7 @@
 
 <script id="customer-overview-template" type="text/x-handlebars-template">
     <header>
-        Customer Name: {{fname}} + {{lname}}<br>
+        Customer Name: {{fname}} {{lname}}<br>
         ID: {{id}}<br>
         Email: {{email}}<br>
     </header>
@@ -155,7 +174,7 @@
     <header>
         Call Date: {{calllogdate}} <br>
         Call Comments: {{callcomments}} <br>
-        CallSeverity: {{callseverity}}  <br>
+        CallSeverity: {{callseverity}} <br>
         Company Id: {{companyid}}
     </header>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
@@ -165,12 +184,13 @@
 
 <script id="social-media-template" type="text/x-handlebars-template">
     <header>
-        Source: {{source}}  <br>
-        Message: {{post}}   <br>
+        Source: {{source}} <br>
+        Message: {{post}} <br>
     </header>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
     <footer class='module-footer'>
     </footer>
 </script>
+<script src="js/lib/messenger.js"></script>
 </body>
 </html>

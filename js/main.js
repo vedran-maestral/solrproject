@@ -1,50 +1,18 @@
 $(document).ready(function () {
 
-   var getCompaniesEP = "getallcompanies",
-       getCustomerOverviewEP = "getcustomeroverview",
-       getCallCenterLogEP = "getlogs",
-       getSocialMediaEP = "getsocial",
-       getSingleCompanyEP = "getsinglecompany";
+    var getCompaniesEP = "getallcompanies",
+        getCustomerOverviewEP = "getcustomeroverview",
+        getCallCenterLogEP = "getlogs",
+        getSocialMediaEP = "getsocial",
+        getSingleCompanyEP = "getsinglecompany",
+        getSearchAsYoutype = "searchasyoutype";
 
-    $.ajax({
-        url: navapp.clientLocation + getCompaniesEP, //TO DO Get this from config
-        data: "",//JSON.stringify(stuffToSend),
-        contentType: "text/plain",
-        type: 'GET',
-        //async: false,
-        dataType: "json",
-        crossDomain: true,
-        success: function (data) {
-            data.docs.forEach(function (key, index, whole){
-                $('#navigator-table tr:last').before('' +
-                    '<tr id="'+key.id+'" class="table-row getnavobject"><td class="table-cell">' + key.companyname + '</td>' +
-                    '<td class="table-cell">' + key.id + '</td>' +
-                    '<td class="table-cell">' + key.email + '</td>' +
-                    '<td class="table-cell">' + key.fname + '</td>' +
-                    '<td class="table-cell">' + key.lname + '</td>' +
-                    '</td></tr>');
-            })
-        }
-    }).fail(function (err) {
 
-    }).done(function () {
-        $(".getnavobject").on("click", function (e) {
+    function getAllCompanies() {
+        var numberOfRecords = 0;
 
-            $("#maintabs").show();
-            console.log(e.currentTarget.id);
-            navapp.id = e.currentTarget.id;
-        });
-    });
-
-    function singleCompanySearch () {
-        $("#table-body").empty().append(" <tr> </tr>");
-
-       var companyId =  parseInt($("#search-id-text").val());
-
-        //alert(navapp.clientLocation + getSingleCompanyEP + + "?id=" + companyId)
-       debugger;
         $.ajax({
-            url: navapp.clientLocation + getSingleCompanyEP + "?id=" + parseInt(companyId), //TO DO Get this from config
+            url: navapp.clientLocation + getCompaniesEP, //TO DO Get this from config
             data: "",//JSON.stringify(stuffToSend),
             contentType: "text/plain",
             type: 'GET',
@@ -52,10 +20,12 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-                debugger;
-                data.forEach(function (key, index, whole){
+
+                 numberOfRecords = data.numFound;
+
+                data.docs.forEach(function (key, index, whole) {
                     $('#navigator-table tr:last').before('' +
-                        '<tr id="'+key.id+'" class="table-row getnavobject"><td class="table-cell">' + key.companyname + '</td>' +
+                        '<tr id="' + key.id + '" class="table-row getnavobject"><td class="table-cell">' + key.companyname + '</td>' +
                         '<td class="table-cell">' + key.id + '</td>' +
                         '<td class="table-cell">' + key.email + '</td>' +
                         '<td class="table-cell">' + key.fname + '</td>' +
@@ -72,12 +42,119 @@ $(document).ready(function () {
                 console.log(e.currentTarget.id);
                 navapp.id = e.currentTarget.id;
             });
-        });
+            Messenger().post({
+                message: "Total records Found - " + numberOfRecords + "<br>" + "Displaying first 20",
+                hideAfter: 6
+            });
 
+           /* for (var i=0; i < numberOfPages; i++){
+                var html;
+                html = "<a href='http://www.w3schools.com'>"+ i + "</a>" + " ";
+                $("#paginator").append(html);
+            }*/
+        });
     }
 
+    getAllCompanies();
 
+    function searchAsYouType() {
 
+        var companyName = $("#search-text").val();
+
+        if (companyName === "") {
+            $("#table-body").empty().append(" <tr> </tr>");
+            getAllCompanies();
+            return;
+        }
+        debugger;
+
+        $.ajax({
+            url: navapp.clientLocation + getSearchAsYoutype + "?id=" + companyName, //TO DO Get this from config
+            data: "",//JSON.stringify(stuffToSend),
+            contentType: "text/plain",
+            type: 'GET',
+            //async: false,
+            dataType: "json",
+            crossDomain: true,
+            success: function (data) {
+                debugger;
+                if (data.length === 0) {
+                    return;
+                }
+                $("#table-body").empty();
+                data.forEach(function (key, index, whole) {
+                    $("#table-body").append(" <tr> </tr>");
+                    $('#navigator-table tr:last').before('' +
+                        '<tr id="' + key.id + '" class="table-row getnavobject"><td class="table-cell">' + key.companyname + '</td>' +
+                        '<td class="table-cell">' + key.id + '</td>' +
+                        '<td class="table-cell">' + key.email + '</td>' +
+                        '<td class="table-cell">' + key.fname + '</td>' +
+                        '<td class="table-cell">' + key.lname + '</td>' +
+                        '</td></tr>');
+                })
+            }
+        }).fail(function (err) {
+
+        }).done(function () {
+            $(".getnavobject").on("click", function (e) {
+
+                $("#maintabs").show();
+                console.log(e.currentTarget.id);
+                navapp.id = e.currentTarget.id;
+
+                Messenger().post({
+                    message: "Selected - record with ID: " + navapp.id,
+                    hideAfter: 6
+                });
+            });
+        });
+    }
+
+    function singleCompanySearch() {
+        $("#table-body").empty().append(" <tr> </tr>");
+
+        var companyId = $("#search-id-text").val();
+
+        if (companyId === "") {
+            getAllCompanies();
+            return;
+        }
+
+        $.ajax({
+            url: navapp.clientLocation + getSingleCompanyEP + "?id=" + parseInt(companyId), //TO DO Get this from config
+            data: "",//JSON.stringify(stuffToSend),
+            contentType: "text/plain",
+            type: 'GET',
+            //async: false,
+            dataType: "json",
+            crossDomain: true,
+            success: function (data) {
+                data.forEach(function (key, index, whole) {
+                    $('#navigator-table tr:last').before('' +
+                        '<tr id="' + key.id + '" class="table-row getnavobject"><td class="table-cell">' + key.companyname + '</td>' +
+                        '<td class="table-cell">' + key.id + '</td>' +
+                        '<td class="table-cell">' + key.email + '</td>' +
+                        '<td class="table-cell">' + key.fname + '</td>' +
+                        '<td class="table-cell">' + key.lname + '</td>' +
+                        '</td></tr>');
+                })
+            }
+        }).fail(function (err) {
+
+        }).done(function (key) {
+            $(".getnavobject").on("click", function (e) {
+
+                $("#maintabs").show();
+                console.log(e.currentTarget.id);
+                navapp.id = e.currentTarget.id;
+            });
+            Messenger().post({
+                message: "Found - record with ID: " + key.id,
+                hideAfter: 6
+            });
+
+        });
+    }
 
     //Register event handlers
     $("#customer-overview").on("click", showCustomerOverview);
@@ -86,8 +163,18 @@ $(document).ready(function () {
 
     $("#searchid-button").on("click", singleCompanySearch);
 
+    $("#search-id-text").on("keyup", function (e) {
+        debugger;
+        if (e.which === 13) {
+            singleCompanySearch();
+        }
+    });
 
-    function showCustomerOverview () {
+    $("#temp-button").on("click", searchAsYouType);
+
+    $("#search-text").on("keyup", searchAsYouType);
+
+    function showCustomerOverview() {
 
         $("#main-container").empty();
         var getCustomerOverview = "http://localhost/getallcompanies";
@@ -115,7 +202,7 @@ $(document).ready(function () {
         });
     };
 
-    function showCallCenterLogs () {
+    function showCallCenterLogs() {
         var source = $("#ribbon-template").html();
         var templateRibbon = Handlebars.compile(source);
         var sourceDisplay = $("#call-center-template").html();
@@ -135,17 +222,15 @@ $(document).ready(function () {
                 data.forEach(function (key) {
                     $("#main-container").append(templateDisplay(key));
                 });
-
             }
         }).fail(function (err) {
 
         }).done(function () {
 
         });
-
     };
 
-    function showSocialMedia () {
+    function showSocialMedia() {
         var source = $("#ribbon-template").html();
         var templateRibbon = Handlebars.compile(source);
         var sourceDisplay = $("#social-media-template").html();
@@ -172,134 +257,4 @@ $(document).ready(function () {
 
         });
     };
-
-
-
-   /* $("#searchbutton").on("click", searchSOLR);
-    $("#searchValue").keyup(function (e) {
-        if (e.which === 13) {
-            searchSOLR();
-        }
-    });*/
-
-
-
-
-
-
-
-
-    function searchSOLR() {
-
-        var searchCriteria = $("#solrsearchcriteria").val();
-
-        $("#contentholder").empty();
-        $("#totalresults").empty();
-        $("#returnedresults").empty();
-
-        var searchParam = $("#searchValue").val();
-
-        var html = "";
-
-        var data = {"query": {
-            "term": { "description": searchParam },
-            "size": "50"
-        }};
-
-        //var searchStringSOLR = "http://ec2-54-68-99-106.us-west-2.compute.amazonaws.com:8983/solr/select?q=description:" + searchParam + "&wt=json&indent=true";
-        var searchStringSOLR = "http://ec2-54-148-31-2.us-west-2.compute.amazonaws.com:8983/solr/select?q=" + searchCriteria + ":" + searchParam + "&wt=json&indent=true";
-
-
-        $.ajax({
-            url: searchStringSOLR,
-            type: 'POST',
-            // contentType: 'application/json; charset=UTF-8',
-            dataType: "json",
-            crossDomain: true,
-            data: JSON.stringify(data),
-            success: function (data) {
-                var totalresults = data.response.numFound;
-
-                $("#totalresults").append("Total Results: " + totalresults);
-                $("#returnedresults").append("Returned results: " + data.response.docs.length + "<br>" + "<hr>");
-
-                if(searchCriteria === "id" && data.response.numFound > 0) {
-
-                    console.log("Hello There");
-
-                    var description =  data.response.docs[0].description;
-                    var id = data.response.docs[0].id;
-
-                    html = "You are correcting id: " + id + "<br>" + "<input id='editdescription' placeholder='"+ description +"'>" + "<br>" +
-                        "<button id='savebtn' type='button'>Save</button> " ;
-
-
-                    $("#contentholder").append(html);
-                    return;
-                }
-
-                for (var i = 0; i < totalresults; i++) {
-                    html = "";
-                    var id = data.response.docs[i].id;
-                    var subject = data.response.docs[i].subject;
-                    var weight = data.response.docs[i].weight;
-                    //var title =data.response.docs[i].title;
-                    var description = data.response.docs[i].description;
-                    html = "This is id: " + "<i>" + id + "</i>" + "<br>" + "Person name is: " + subject + "<br>" + "Description Field: " + description + "<br>" + "Product Weight: " + weight + "<hr>";
-                    $("#contentholder").append(html);
-                }
-
-
-                console.log("And this is success: " + data);
-                // $("#contentholder").text(data);
-            }
-        }).fail(function (error) {
-            console.log("Search Failed")
-        })
-    }
-
-////////////////////////////////////////////////////////
-//*ADDING THE STUFF TO SOLR SEARCH ON AMAZON AWS*///
-//////////////////////////////////////////////////////
-    function postOnElastic(postNumber) {
-
-        var that = this;
-
-
-        for (var i = 177620; i < 33000000; i++) {
-
-            var randomPhrase = MMPhraseGenerator.phrase();
-            var randomName = MMPhraseGenerator.name();
-
-            var data = {
-                id: "mistraltech" + i,
-                weight: 1 + i,
-                subject: randomName,
-                description: randomPhrase,
-                porezniobveznik: "Yes"
-            };
-
-            var stuffToSend = [];
-
-            stuffToSend.push(data);
-
-            $.ajax({
-                url: 'http://ec2-54-148-31-2.us-west-2.compute.amazonaws.com:8983/solr/update/json?commit=true', //TO DO Get this from config
-                data: JSON.stringify(stuffToSend),
-                contentType: "text/plain",
-                type: 'POST',
-                //async: false,
-                dataType: "json",
-                crossDomain: true,
-                success: function (data) {
-                    console.log("Indexed so far: " + i);
-
-                }
-            }).fail(failedPost)
-        }
-
-        function failedPost(error) {
-            console.log("Something went wrong" + error);
-        }
-    }
-})
+});

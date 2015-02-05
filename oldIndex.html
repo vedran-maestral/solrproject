@@ -11,6 +11,13 @@
 
 <link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>
 <link rel="stylesheet" href="css/new-style.css" type="text/css"/>
+<link rel="stylesheet" href="css/messenger.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src=" //cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.js"></script>
 <!--used for data generation-->
@@ -21,27 +28,28 @@
 
         <a class="navbar-brand"><img class="brand-logo" src="img/logo.png"></a>
     </div>
-     <p>class="page-title">Customers at Risk</p>
+    <p>class="page-title">Customers at Risk</p>
 
 
 </head>
 <body>
 
-<form class="navbar-form navbar-left" role="search">
+<div class="navbar-form navbar-left" role="search">
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search by id">
+        <input id="search-id-text" type="text" class="form-control" placeholder="Search by id">
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button id="searchid-button" class="btn btn-default">Search ID</button>
     <div class="form-group">
         <input style="margin-left:100px" type="text" class="form-control" placeholder="Search by name">
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
-</form>
+</div>
 
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <!-- Table -->
-    <table id="navigator-table" class="table risk-table">
+    <table id="navigator-table" class="table risk-table table-hover">
+        <caption>Hover Table Layout</caption>
         <thead>
         <tr>
             <th>Company Name</th>
@@ -51,16 +59,14 @@
             <th>Last Name</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="table-body">
         <tr>
-            <td></td>
         </tr>
         </tbody>
     </table>
 </div>
 
 
-<div id="main-container"></div>
 <script>
     var navapp = {
         endpoint: "ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/",
@@ -68,25 +74,38 @@
     }
 </script>
 
+<div class="form-group">
+    <input id="temp-text" type="text" class="form-control" placeholder="Search by id">
+</div>
+<button id="temp-button" class="btn btn-default">Search ID</button>
+
+
+
+<div class="navbar-center"><a href="http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/update?stream.body=<delete><query>*:*</query></delete>"
+                              target="_blank">Delete INDEX</a></div>
+
+<div class="navbar-center"><a href="http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/update?stream.body=<commit/>"
+                              target="_blank">Commit Delete</a></div>
+
 
 
 <!-- Tabs -->
-<div id="maintabs" style="display: none">
+<div id="maintabs" style="display: none" class="col-md-12">
     <ul class="servicesList">
-        <li id="customer-overview" class="col-md-3 col-sm-6 purple">
-            <span class="number">1</span>
+        <li id="customer-overview" data-toggle="modal" data-target="#myModal" class="col-md-4 col-sm-6 purple ">
+
             <h3>Customer Overview</h3>
-            <p>Display: 1st & Last. ID, Email Address, Risk Values, Call Center incident#, date and severity and resolution</p>
+
+            <p>Display: 1st & Last. ID, Email Address, Risk Values, Call Center incident#, date and severity and
+                resolution</p>
         </li>
-        <li id="call-center" class="col-md-3 col-sm-6 pink">
-            <span class="number">2</span>
+        <li id="call-center" data-toggle="modal" data-target="#myModal" class="col-md-4 col-sm-6 pink">
 
             <h3>Call Center</h3>
 
             <p>Display Calllog#. call log date, call log comment, call log severity</p>
         </li>
-        <li id="social-media" class="col-md-3 col-sm-6 blue">
-            <span class="number">3</span>
+        <li id="social-media" data-toggle="modal" data-target="#myModal" class="col-md-4 col-sm-6 blue">
 
             <h3>Social Media</h3>
 
@@ -94,6 +113,25 @@
         </li>
     </ul>
 </div>
+
+<div class="modal fade " id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-hdr">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <div id="ribbon-header" class="ribbon-header"></div>
+            </div>
+            <div class="modal-body">
+                <div id="main-container" class="main-container">
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script src="js/main.js"></script>
 <script src="loader.js"></script>
 <script src="js/lib/handlebars.js"></script>
@@ -101,7 +139,7 @@
 <!--TEMPLATES-->
 
 <script id="ribbon-template" type="text/x-handlebars-template">
-    <header> I AM RIBBON--
+    <header>
         Customer Name: {{companyname}} <br>
         Email: {{email}} <br>
         Phone: {{phone}}<br>
@@ -113,7 +151,6 @@
 
 <script id="customer-overview-template" type="text/x-handlebars-template">
     <header>
-        I AM PANEL WINDOW--
         Customer Name: {{fname}} + {{lname}}<br>
         ID: {{id}}<br>
         Email: {{email}}<br>
@@ -125,8 +162,10 @@
 
 <script id="call-center-template" type="text/x-handlebars-template">
     <header>
-        Customer Name: {{companyname}}
-        Email: {{email}}
+        Call Date: {{calllogdate}} <br>
+        Call Comments: {{callcomments}} <br>
+        CallSeverity: {{callseverity}}  <br>
+        Company Id: {{companyid}}
     </header>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
     <footer class='module-footer'>
@@ -135,8 +174,8 @@
 
 <script id="social-media-template" type="text/x-handlebars-template">
     <header>
-        Customer Name: {{companyname}}
-        Email: {{email}}
+        Source: {{source}}  <br>
+        Message: {{post}}   <br>
     </header>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
     <footer class='module-footer'>

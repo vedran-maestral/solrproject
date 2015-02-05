@@ -1,19 +1,21 @@
-#main-title{
+#main-title {
     margin-left: 7px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: large;
     font-weight: bold;
 }
 
-.table-bordered thead{
+.table-bordered thead {
     background-color: #e3e3e3;
     width: 100%;
 }
+
 .servicesList {
     margin: 0px;
     padding: 0px;
     list-style: none;
 }
+
 .servicesList li {
     color: #fff;
     position: relative;
@@ -23,44 +25,49 @@
     -o-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
     z-index: 2;
-    height:200px;
+    height: 200px;
 }
+
 .purple {
     background: #8460a4;
 }
+
 .servicesList li:hover {
-    transform: scale(1.1,1.1);
+    transform: scale(1.1, 1.1);
     z-index: 99;
 }
 
 .servicesList li:hover {
-    transform: scale(1.1,1.1);
+    transform: scale(1.1, 1.1);
     z-index: 99;
 }
+
 .pink {
     background: #FF6863;
 }
+
 .servicesList li:hover {
-    transform: scale(1.1,1.1);
+    transform: scale(1.1, 1.1);
     z-index: 99;
 }
+
 .servicesList li:hover {
-    transform: scale(1.1,1.1);
+    transform: scale(1.1, 1.1);
     z-index: 99;
 }
+
 .blue {
     background: #3DCEC7;
 }
+
 .servicesList li:hover {
-    transform: scale(1.1,1.1);
+    transform: scale(1.1, 1.1);
     z-index: 99;
 }
 
-.main-container{
-    transform: scale(1.1,1.1);
+.main-container {
     z-index: 99;
 }
-
 
 .navbar-header {
     background: #18af91;
@@ -73,6 +80,7 @@
     height: auto;
     width: 130px;
 }
+
 img {
     vertical-align: middle;
     border: 0;
@@ -82,26 +90,57 @@ img {
     margin-top: 40px !important;
 }
 
+/*table {
+    display: inline-block;
+    height: 500px;
+    overflow-y: scroll;
+    width: 50% !important;
+    max-width: 50% !important;
+}*/
+
 .table-content {
     font-family: "museo-sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-size: small;
     color: darkslategrey;
 }
 
-.main-container{
+.main-container {
     font-family: "museo-sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-weight: normal;
     font-size: small;
-    text-align: center;
+
 }
 
-.ribbon-header{
+.ribbon-header {
     font-family: "museo-sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-weight: lighter;
-    font-size: medium;
-    text-align: center;
+    font-weight: bold;
+    font-size: small;
+
 }
 
-.modal-hdr{
+.modal-hdr {
     background-color: #f7f7f7;
+}
+
+#imaginary_container {
+    margin-top: 20%; /* Don't copy this */
+}
+
+.stylish-input-group .input-group-addon {
+    background: white !important;
+}
+
+.stylish-input-group .form-control {
+    border-right: 0;
+    box-shadow: 0 0 0;
+    border-color: #ccc;
+}
+
+.stylish-input-group button {
+    border: 0;
+    background: transparent;
+}
+
+.custom-search-form {
+    margin-top: 5px;
 }
