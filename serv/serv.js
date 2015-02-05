@@ -135,6 +135,33 @@ app.configure('production', function () {
         }
     });
 
+    app.get('/getsinglecompany', function (req, res) {
+        console.log("is it getting inside")
+
+        var companyId = req.param('id');
+
+        var query = mc.solrEP.SOLR + mc.solrEP.getSingleCompany + companyId + "&fq=isCompany:true&fl=fname,lname,id,email,companyname&wt=json&indent=true";
+
+        try {
+            request(query, function (error, response, socialdata) {
+
+                if (!error && response.statusCode === 200) {
+
+                    var customerOverview = JSON.parse(socialdata);
+
+                    return res.send(customerOverview.response.docs);
+                } else {
+                    return res.send("Points of Light is currently not available. Please try later.", 500);
+                }
+            });
+        }
+        catch (err) {
+            return res.send(err, 500);
+        }
+    });
+
+
+
 
 });
 app.listen(80);

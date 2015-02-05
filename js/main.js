@@ -3,7 +3,8 @@ $(document).ready(function () {
    var getCompaniesEP = "getallcompanies",
        getCustomerOverviewEP = "getcustomeroverview",
        getCallCenterLogEP = "getlogs",
-       getSocialMediaEP = "getsocial";
+       getSocialMediaEP = "getsocial",
+       getSingleCompanyEP = "getsinglecompany";
 
     $.ajax({
         url: navapp.clientLocation + getCompaniesEP, //TO DO Get this from config
@@ -30,18 +31,60 @@ $(document).ready(function () {
         $(".getnavobject").on("click", function (e) {
 
             $("#maintabs").show();
-           //$("#call-center").show();
-            //$("#social-media").show();
             console.log(e.currentTarget.id);
             navapp.id = e.currentTarget.id;
-
         });
     });
+
+    function singleCompanySearch () {
+        $("#table-body").empty().append(" <tr> </tr>");
+
+       var companyId =  parseInt($("#search-id-text").val());
+
+        //alert(navapp.clientLocation + getSingleCompanyEP + + "?id=" + companyId)
+       debugger;
+        $.ajax({
+            url: navapp.clientLocation + getSingleCompanyEP + "?id=" + parseInt(companyId), //TO DO Get this from config
+            data: "",//JSON.stringify(stuffToSend),
+            contentType: "text/plain",
+            type: 'GET',
+            //async: false,
+            dataType: "json",
+            crossDomain: true,
+            success: function (data) {
+                debugger;
+                data.forEach(function (key, index, whole){
+                    $('#navigator-table tr:last').before('' +
+                        '<tr id="'+key.id+'" class="table-row getnavobject"><td class="table-cell">' + key.companyname + '</td>' +
+                        '<td class="table-cell">' + key.id + '</td>' +
+                        '<td class="table-cell">' + key.email + '</td>' +
+                        '<td class="table-cell">' + key.fname + '</td>' +
+                        '<td class="table-cell">' + key.lname + '</td>' +
+                        '</td></tr>');
+                })
+            }
+        }).fail(function (err) {
+
+        }).done(function () {
+            $(".getnavobject").on("click", function (e) {
+
+                $("#maintabs").show();
+                console.log(e.currentTarget.id);
+                navapp.id = e.currentTarget.id;
+            });
+        });
+
+    }
+
+
+
 
     //Register event handlers
     $("#customer-overview").on("click", showCustomerOverview);
     $("#call-center").on("click", showCallCenterLogs);
     $("#social-media").on("click", showSocialMedia);
+
+    $("#searchid-button").on("click", singleCompanySearch);
 
 
     function showCustomerOverview () {

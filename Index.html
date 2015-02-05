@@ -33,21 +33,22 @@
 </head>
 <body>
 
-<form class="navbar-form navbar-left" role="search">
+<div class="navbar-form navbar-left" role="search">
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search by id">
+        <input id="search-id-text" type="text" class="form-control" placeholder="Search by id">
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button id="searchid-button" class="btn btn-default">Search ID</button>
     <div class="form-group">
         <input style="margin-left:100px" type="text" class="form-control" placeholder="Search by name">
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
-</form>
+</div>
 
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <!-- Table -->
-    <table id="navigator-table" class="table risk-table">
+    <table id="navigator-table" class="table risk-table table-hover">
+        <caption>Hover Table Layout</caption>
         <thead>
         <tr>
             <th>Company Name</th>
@@ -57,7 +58,7 @@
             <th>Last Name</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="table-body">
         <tr>
         </tr>
         </tbody>
@@ -71,6 +72,12 @@
         clientLocation: "http://localhost/"
     }
 </script>
+<div class="navbar-center"><a href="http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/update?stream.body=<delete><query>*:*</query></delete>"
+                              target="_blank">Delete INDEX</a></div>
+
+<div class="navbar-center"><a href="http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/update?stream.body=<commit/>"
+                              target="_blank">Commit Delete</a></div>
+
 
 
 <!-- Tabs -->
