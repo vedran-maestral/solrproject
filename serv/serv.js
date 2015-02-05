@@ -101,7 +101,7 @@ app.configure('production', function () {
 
                     var customerOverview = JSON.parse(company);
 
-                    return res.send(customerOverview.response.docs[0]);
+                    return res.send(customerOverview.response.docs);
                 } else {
                     return res.send("Points of Light is currently not available. Please try later.", 500);
                 }

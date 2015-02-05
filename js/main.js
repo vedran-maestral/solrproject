@@ -76,16 +76,15 @@ $(document).ready(function () {
 
     function showCallCenterLogs () {
 
-        debugger;
         $.ajax({
-            url: navapp.clientLocation + getCallCenterLogEP, //TO DO Get this from config
+            url: navapp.clientLocation + getCallCenterLogEP + "?id=" + navapp.id, //TO DO Get this from config
             data: "",//JSON.stringify(stuffToSend),
             contentType: "text/plain",
             type: 'GET',
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-
+                debugger;
             }
         }).fail(function (err) {
 
