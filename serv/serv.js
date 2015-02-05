@@ -93,13 +93,36 @@ app.configure('production', function () {
 
         var companyId = req.param('id');
 //http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/select?q=companyid:1&wt=json&indent=true
-        var query = mc.solrEP.SOLR + mc.solrEP.getCallLogs + companyId + "&wt=json&indent=true";
+        var query = mc.solrEP.SOLR + mc.solrEP.getCallLogs + companyId + "&fq=isCompany:false&wt=json&indent=true"; // and is social=false;
         try {
             request(query, function (error, response, company) {
 
                 if (!error && response.statusCode === 200) {
 
                     var customerOverview = JSON.parse(company);
+
+                    return res.send(customerOverview.response.docs);
+                } else {
+                    return res.send("Points of Light is currently not available. Please try later.", 500);
+                }
+            });
+        }
+        catch (err) {
+            return res.send(err, 500);
+        }
+    });
+
+    app.get('/getsocial', function (req, res) {
+
+        var companyId = req.param('id');
+
+        var query = mc.solrEP.SOLR + mc.solrEP.getCallLogs + companyId + "&fq=isSocial:true&wt=json&indent=true";
+        try {
+            request(query, function (error, response, socialdata) {
+
+                if (!error && response.statusCode === 200) {
+
+                    var customerOverview = JSON.parse(socialdata);
 
                     return res.send(customerOverview.response.docs);
                 } else {

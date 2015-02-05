@@ -19,9 +19,9 @@ module.exports = {
         getCallLogs: 'solr/select?q=companyid:',
         getSocialMedia: '',
         filterQuery: ''
-
     }
-
-
 };
 
+//http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/select?q=companyid:1&fq=isSocial:true&wt=json&indent=true
+
+//http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/select?q=companyid:1&fq=isSocial:false&wt=json&indent=true

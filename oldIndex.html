@@ -11,12 +11,6 @@
 
 <link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>
 <link rel="stylesheet" href="css/new-style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src=" //cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.js"></script>
 <!--used for data generation-->
@@ -27,7 +21,7 @@
 
         <a class="navbar-brand"><img class="brand-logo" src="img/logo.png"></a>
     </div>
-    <p>class="page-title">Customers at Risk</p>
+     <p>class="page-title">Customers at Risk</p>
 
 
 </head>
@@ -59,12 +53,14 @@
         </thead>
         <tbody>
         <tr>
+            <td></td>
         </tr>
         </tbody>
     </table>
 </div>
 
 
+<div id="main-container"></div>
 <script>
     var navapp = {
         endpoint: "ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/",
@@ -73,23 +69,24 @@
 </script>
 
 
+
 <!-- Tabs -->
-<div id="maintabs" style="display: none" class="col-md-12">
+<div id="maintabs" style="display: none">
     <ul class="servicesList">
-        <li id="customer-overview" data-toggle="modal" data-target="#myModal" class="col-md-4 col-sm-6 purple ">
-
+        <li id="customer-overview" class="col-md-3 col-sm-6 purple">
+            <span class="number">1</span>
             <h3>Customer Overview</h3>
-
-            <p>Display: 1st & Last. ID, Email Address, Risk Values, Call Center incident#, date and severity and
-                resolution</p>
+            <p>Display: 1st & Last. ID, Email Address, Risk Values, Call Center incident#, date and severity and resolution</p>
         </li>
-        <li id="call-center" data-toggle="modal" data-target="#myModal" class="col-md-4 col-sm-6 pink">
+        <li id="call-center" class="col-md-3 col-sm-6 pink">
+            <span class="number">2</span>
 
             <h3>Call Center</h3>
 
             <p>Display Calllog#. call log date, call log comment, call log severity</p>
         </li>
-        <li id="social-media" data-toggle="modal" data-target="#myModal" class="col-md-4 col-sm-6 blue">
+        <li id="social-media" class="col-md-3 col-sm-6 blue">
+            <span class="number">3</span>
 
             <h3>Social Media</h3>
 
@@ -97,25 +94,6 @@
         </li>
     </ul>
 </div>
-
-<div class="modal fade " id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header modal-hdr">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <div id="ribbon-header" class="ribbon-header"></div>
-            </div>
-            <div class="modal-body">
-                <div id="main-container" class="main-container">
-                </div>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
 <script src="js/main.js"></script>
 <script src="loader.js"></script>
 <script src="js/lib/handlebars.js"></script>
@@ -123,7 +101,7 @@
 <!--TEMPLATES-->
 
 <script id="ribbon-template" type="text/x-handlebars-template">
-    <header>
+    <header> I AM RIBBON--
         Customer Name: {{companyname}} <br>
         Email: {{email}} <br>
         Phone: {{phone}}<br>
@@ -135,6 +113,7 @@
 
 <script id="customer-overview-template" type="text/x-handlebars-template">
     <header>
+        I AM PANEL WINDOW--
         Customer Name: {{fname}} + {{lname}}<br>
         ID: {{id}}<br>
         Email: {{email}}<br>
@@ -146,10 +125,8 @@
 
 <script id="call-center-template" type="text/x-handlebars-template">
     <header>
-        Call Date: {{calllogdate}} <br>
-        Call Comments: {{callcomments}} <br>
-        CallSeverity: {{callseverity}}  <br>
-        Company Id: {{companyid}}
+        Customer Name: {{companyname}}
+        Email: {{email}}
     </header>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
     <footer class='module-footer'>
@@ -158,8 +135,8 @@
 
 <script id="social-media-template" type="text/x-handlebars-template">
     <header>
-        Source: {{source}}  <br>
-        Message: {{post}}   <br>
+        Customer Name: {{companyname}}
+        Email: {{email}}
     </header>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
     <footer class='module-footer'>

@@ -3,7 +3,7 @@ $(document).ready(function () {
    var getCompaniesEP = "getallcompanies",
        getCustomerOverviewEP = "getcustomeroverview",
        getCallCenterLogEP = "getlogs",
-       getSocialMediaEP = "";
+       getSocialMediaEP = "getsocial";
 
     $.ajax({
         url: navapp.clientLocation + getCompaniesEP, //TO DO Get this from config
@@ -45,13 +45,14 @@ $(document).ready(function () {
 
 
     function showCustomerOverview () {
+
+        $("#main-container").empty();
         var getCustomerOverview = "http://localhost/getallcompanies";
         var source = $("#ribbon-template").html();
         var sourceDisplay = $("#customer-overview-template").html();
 
-        var template = Handlebars.compile(source);
+        var templateRibbon = Handlebars.compile(source);
         var templateDisplay = Handlebars.compile(sourceDisplay);
-        debugger;
 
         $.ajax({
             url: navapp.clientLocation + getCustomerOverviewEP + "?id=" + navapp.id, //TO DO Get this from config
@@ -61,20 +62,23 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-                $("#main-container").html(template(data));
+                $("#ribbon-header").html(templateRibbon(data));
                 $("#main-container").append(templateDisplay(data));
-
             }
         }).fail(function (err) {
 
         }).done(function () {
 
         });
-
-
     };
 
     function showCallCenterLogs () {
+        var source = $("#ribbon-template").html();
+        var templateRibbon = Handlebars.compile(source);
+        var sourceDisplay = $("#call-center-template").html();
+        var templateDisplay = Handlebars.compile(sourceDisplay);
+
+        $("#main-container").empty();
 
         $.ajax({
             url: navapp.clientLocation + getCallCenterLogEP + "?id=" + navapp.id, //TO DO Get this from config
@@ -84,7 +88,11 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-                debugger;
+                $("#ribbon-header").html(templateRibbon(data));
+                data.forEach(function (key) {
+                    $("#main-container").append(templateDisplay(key));
+                });
+
             }
         }).fail(function (err) {
 
@@ -95,8 +103,13 @@ $(document).ready(function () {
     };
 
     function showSocialMedia () {
+        var source = $("#ribbon-template").html();
+        var templateRibbon = Handlebars.compile(source);
+        var sourceDisplay = $("#social-media-template").html();
+        var templateDisplay = Handlebars.compile(sourceDisplay);
+
         $.ajax({
-            url: getCompanies, //TO DO Get this from config
+            url: navapp.clientLocation + getSocialMediaEP + "?id=" + navapp.id, //TO DO Get this from config
             data: "",//JSON.stringify(stuffToSend),
             contentType: "text/plain",
             type: 'GET',
@@ -104,17 +117,18 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-
+                $("#ribbon-header").html(templateRibbon(data));
+                data.forEach(function (key) {
+                    debugger;
+                    $("#main-container").append(templateDisplay(key));
+                });
             }
         }).fail(function (err) {
 
         }).done(function () {
 
         });
-        alert("I am social media");
     };
-
-
 
 
 
