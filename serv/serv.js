@@ -67,7 +67,14 @@ app.configure('production', function () {
         var customerOverview = "";
 
         var query = mc.solrEP.SOLR + mc.solrEP.getCustomerOverview + companyId + "&wt=json&indent=true&rows=25";
-        var queryNumber = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId  + "&fq=isCompany:false&rows=1&wt=json&indent=true";
+        var queryNumber = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId + "&fq=isCompany:false&rows=1&wt=json&indent=true";
+        var queryRed = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId + "&fq=isCompany:false&fq=callseverity:red&rows=0&wt=json&indent=true";
+        var queryGreen = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId + "&fq=isCompany:false&fq=callseverity:green&rows=0&wt=json&indent=true";
+        var queryYellow = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId + "&fq=isCompany:false&fq=callseverity:yellow&rows=0&wt=json&indent=true";
+        var queryLinkedin = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId + "&fq=isSocial:true&fq=source:linkedin&rows=0&wt=json&indent=true";
+        var queryFacebook = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId + "&fq=isSocial:true&fq=source:facebook&rows=0&wt=json&indent=true";
+        var queryTwitter = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId + "&fq=isSocial:true&fq=source:twitter&rows=0&wt=json&indent=true";
+        //http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/select?q=companyid:1&fq=isSocial:true&fq=source:facebook&rows=1&wt=json&indent=true
         var something = "";
         try {
             request(query, function (error, response, company) {
@@ -81,31 +88,56 @@ app.configure('production', function () {
                     request(queryNumber, function (error, response, count) {
 
                         if (!error && response.statusCode === 200) {
-
                             tempDataholder = JSON.parse(count);
                             customerOverview.totalCountOfCallLogs = tempDataholder.response.numFound;
 
-                            return res.send(customerOverview);
+                            request(queryRed, function (error, response, redIssues) {
+                                if (!error && response.statusCode === 200) {
 
+                                    tempDataholder = JSON.parse(redIssues);
+                                    customerOverview.redIssues = tempDataholder.response.numFound;
+
+                                    request(queryGreen, function (error, response, greenIssues) {
+                                        if (!error && response.statusCode === 200) {
+
+                                            tempDataholder = JSON.parse(greenIssues);
+                                            customerOverview.greenIssues = tempDataholder.response.numFound;
+
+                                            request(queryYellow, function (error, response, yellowIssues) {
+                                                if (!error && response.statusCode === 200) {
+                                                tempDataholder = JSON.parse(yellowIssues);
+                                                customerOverview.yellowIssues = tempDataholder.response.numFound;
+
+                                                    request(queryLinkedin, function (error, response, linkedinPosts) {
+                                                        if (!error && response.statusCode === 200) {
+                                                            tempDataholder = JSON.parse(linkedinPosts);
+                                                            customerOverview.linkedinPosts = tempDataholder.response.numFound;
+
+                                                            request(queryFacebook, function (error, response, facebookPosts) {
+                                                                if (!error && response.statusCode === 200) {
+                                                                    tempDataholder = JSON.parse(facebookPosts);
+                                                                    customerOverview.facebookPosts = tempDataholder.response.numFound;
+
+                                                                    request(queryTwitter, function (error, response, twitterPosts) {
+
+                                                                        tempDataholder = JSON.parse(twitterPosts);
+                                                                        customerOverview.twitterPosts = tempDataholder.response.numFound;
+
+                                                                        return res.send(customerOverview)
+                                                                    })
+                                                                }
+                                                            })
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            });
                         }
-
-
-
-
-                        if (!error && response.statusCode === 200) {
-                            return res.send(customerOverview);
-
-                        }
-
-
+                        //return res.send(customerOverview); return res.send(customerOverview)
                     });
-
-
-
-
-
-
-
 
                 } else {
                     return res.send("Error Getting Basic data.", 500);
@@ -213,7 +245,7 @@ app.configure('production', function () {
 
         var companyId = req.param('id');
 
-        var query = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId  + "&fq=isCompany:false&rows=1&wt=json&indent=true";
+        var query = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId + "&fq=isCompany:false&rows=1&wt=json&indent=true";
 
         try {
             request(query, function (error, response, logObject) {
