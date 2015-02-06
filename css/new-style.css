@@ -170,3 +170,14 @@ img {
 .spacing{
     padding-bottom: 10px;
 }
+
+footer {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+}
+
+.part-of-body {
+    padding-bottom: 210px;
+}
