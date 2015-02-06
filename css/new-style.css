@@ -144,3 +144,29 @@ img {
 .custom-search-form {
     margin-top: 5px;
 }
+
+.cc-header{
+    font-weight: 400;
+    font-size:  13px;
+    font-family: "Roboto", helvetica, arial,sans-serif;
+    color: #666666;
+    text-rendering: optimizeLegibility;
+    padding: 10px;
+    background-color: #fcfcfc;
+}
+.cc-header:nth-child(odd) {background: #ebebeb;}
+
+.mdl-header{
+    font-weight: bold;
+    font-size:  15px;
+    font-family: "Roboto", helvetica, arial,sans-serif;
+    color: #666666;
+}
+
+.definition{
+    font-weight: bold;
+}
+
+.spacing{
+    padding-bottom: 10px;
+}

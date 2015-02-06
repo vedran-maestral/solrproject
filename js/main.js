@@ -178,7 +178,7 @@ $(document).ready(function () {
     $("#search-text").on("keyup", searchAsYouType);
 
     function showCustomerOverview() {
-debugger;
+
         $("#main-container").empty();
 
 
@@ -197,6 +197,7 @@ debugger;
             dataType: "json",
             crossDomain: true,
             success: function (data) {
+                debugger;
                 $("#ribbon-header").html(templateRibbon(data));
                 $("#main-container").append(templateDisplay(data));
 

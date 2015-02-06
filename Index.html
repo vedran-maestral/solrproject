@@ -12,8 +12,11 @@
 <link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>
 <link rel="stylesheet" href="css/new-style.css" type="text/css"/>
 <link rel="stylesheet" href="css/messenger.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
@@ -53,15 +56,11 @@
                 <div class="input-group custom-search-form">
                     <input id="search-text" type="text" class="form-control" placeholder="Start Typing Company">
               <span class="input-group-btn">
-              <button class="btn btn-default" type="button">
-                  <span class="glyphicon glyphicon-search"></span>
-              </button>
              </span>
                 </div>
                 <!-- /input-group -->
             </div>
             <!--col-6-->
-
         </div>
     </div>
 </div>
@@ -123,7 +122,7 @@
 <div class="modal fade " id="myModal">
     <div class="modal-dialog">
 
-        <div class="modal-content">
+        <div class="modal-content" style="overflow-y: auto;height:90vh;">
             <div class="modal-header modal-hdr">
                 <div id="loaderIcon" style="width: 40px!important; height: 40px!important"></div>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -161,61 +160,131 @@
 <script id="customer-overview-template" type="text/x-handlebars-template">
 
     <header>
-
-        Customer Name: {{fname}} {{lname}}<br>
-        Email: {{email}}<br>
-        Risk values: {{riskvalues}}<br>
-        Log Quantity: {{totalCountOfCallLogs}}<br>
-        Red Issues: {{redIssues}}<br>
-        Green Issues: {{greenIssues}}<br>
-        Yellow Issues: {{yellowIssues}}<br>
-        Linkedin posts: {{linkedinPosts}}<br>
-        Facebook Posts: {{facebookPosts}}<br>
-        Twitter Posts: {{twitterPosts}}<br>
-
-        <div class="row">
-            <div class="col-xs-6">
-                <div id="riskValues" class="200x160px"></div>
-            </div>
-            <div class="col-xs-6">
-                <div id="trashHold" class="200x160px"></div>
-            </div>
-        </div>
-
-        <h5>Red Logs</h5>
-        <div style="background-color: red; background-image: none" class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="{{redIssues}}" aria-valuemin="0"
-                 aria-valuemax="100" style="width:{{redIssues}}%">{{redIssues}}
-            </div>
-        </div>
-
-        <h5>Yellow Logs</h5>
-        <div style="background-color: yellow; background-image: none" class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="{{yellowIssues}}" aria-valuemin="0"
-                 aria-valuemax="100" style="width:{{yellowIssues}}%">{{yellowIssues}}
-            </div>
-        </div>
-
-        <h5>Green Logs</h5>
-        <div style="background-color: green; background-image: none" class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="{{greenIssues}}" aria-valuemin="0"
-                 aria-valuemax="100" style="width:{{greenIssues}}%">{{greenIssues}}
-            </div>
-        </div>
-
-        <!--<div class="row">
-            <div class="col-xs-4">
-                <div id="redIssues" class="200x160px"></div>
-            </div>
-            <div class="col-xs-4">
-                <div id="greenIssues" class="200x160px"></div>
-            </div>
-            <div class="col-xs-4">
-                <div id="yellowIssues" class="200x160px"></div>
-            </div>
-        </div>-->
-
         <div></div>
+        <div> Customer Name: {{fname}} {{lname}}</div>
+        <div>Email: {{email}}</div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-comments fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><h2>{{contractvalue}}</h2></div>
+                                <div>Contract</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-comments fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><h2>{{facebookPosts}}</h2></div>
+                                <div> <img class="brand-logo" style="width:25px;height:25px" src="img/facebook.png"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-comments fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><h2>{{twitterPosts}}</h2></div>
+                                <div> <img class="brand-logo" style="width:25px;height:25px" src="img/twitter.png"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-comments fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge"><h2>{{linkedinPosts}}</h2></div>
+                                <div><img class="brand-logo" style="width:25px;height:25px" src="img/linkedin.png"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div> Linkedin posts: {{linkedinPosts}}</div>
+            <div> Facebook Posts: {{facebookPosts}}</div>
+            <div> Twitter Posts: {{twitterPosts}}</div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div id="riskValues" class="200x160px"></div>
+                </div>
+                <div class="col-xs-6">
+                    <div id="trashHold" class="200x160px"></div>
+                </div>
+            </div>
+           <div>Log Status</div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-success" role="progressbar" style="width:33%">
+                    {{greenIssues}}
+                </div>
+                <div class="progress-bar progress-bar-warning" role="progressbar" style="width:33%">
+                    {{yellowIssues}}
+                </div>
+                <div class="progress-bar progress-bar-danger" role="progressbar" style="width:33%">
+                    {{redIssues}}
+                </div>
+            </div>
+
+            <!--
+                    <h5>Red Logs</h5>
+                    <div style="background-color: red; background-image: none" class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{redIssues}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width:{{redIssues}}%">{{redIssues}}
+                        </div>
+                    </div>
+
+                    <h5>Yellow Logs</h5>
+                    <div style="background-color: yellow; background-image: none" class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{yellowIssues}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width:{{yellowIssues}}%">{{yellowIssues}}
+                        </div>
+                    </div>
+
+                    <h5>Green Logs</h5>
+                    <div style="background-color: green; background-image: none" class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{greenIssues}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width:{{greenIssues}}%">{{greenIssues}}
+                        </div>
+                    </div>-->
+
+            <!--<div class="row">
+                <div class="col-xs-4">
+                    <div id="redIssues" class="200x160px"></div>
+                </div>
+                <div class="col-xs-4">
+                    <div id="greenIssues" class="200x160px"></div>
+                </div>
+                <div class="col-xs-4">
+                    <div id="yellowIssues" class="200x160px"></div>
+                </div>
+            </div>-->
+
+            <div></div>
     </header>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
     <footer class='module-footer'>
@@ -223,22 +292,29 @@
 </script>
 
 <script id="call-center-template" type="text/x-handlebars-template">
-    <header>
-        Call Date: {{calllogdate}} <br>
-        Call Comments: {{callcomments}} <br>
-        CallSeverity: {{callseverity}} <br>
-        Company Id: {{companyid}}
-    </header>
-    <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
-    <footer class='module-footer'>
-    </footer>
+    <div class="cc-header">
+        <div class="spacing">
+            <div class="definition">Call Date:</div>
+            {{calllogdate}}
+        </div>
+        <div class="spacing">
+            <div class="definition">Call Comments:</div>
+            {{callcomments}}
+        </div>
+        <div>
+            <div class="definition">CallSeverity:</div>
+            <div> {{callseverity}}</div>
+        </div>
+        <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
+        <footer class='module-footer'>
+        </footer>
 </script>
 
 <script id="social-media-template" type="text/x-handlebars-template">
-    <header>
-        Source: {{source}} <br>
-        Message: {{post}} <br>
-    </header>
+    <div class="cc-header">
+        <div>Source: {{source}}</div>
+        <div> Message: {{post}}</div>
+    </div>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
     <footer class='module-footer'>
     </footer>
