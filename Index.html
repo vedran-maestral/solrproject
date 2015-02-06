@@ -118,8 +118,10 @@
 
 <div class="modal fade " id="myModal">
     <div class="modal-dialog">
+
         <div class="modal-content">
             <div class="modal-header modal-hdr">
+                <div id="loaderIcon" style="width: 40px!important; height: 40px!important"></div>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <div id="ribbon-header" class="ribbon-header"></div>
             </div>
@@ -153,7 +155,9 @@
 </script>
 
 <script id="customer-overview-template" type="text/x-handlebars-template">
+
     <header>
+
         Customer Name: {{fname}} {{lname}}<br>
         Email: {{email}}<br>
         Risk values: {{riskvalues}}<br>
@@ -173,7 +177,6 @@
                 <div id="trashHold" class="200x160px"></div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-xs-4">
                 <div id="redIssues" class="200x160px"></div>

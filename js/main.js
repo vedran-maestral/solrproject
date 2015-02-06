@@ -178,14 +178,17 @@ $(document).ready(function () {
     $("#search-text").on("keyup", searchAsYouType);
 
     function showCustomerOverview() {
-
+debugger;
         $("#main-container").empty();
+
+
         var source = $("#ribbon-template").html();
         var sourceDisplay = $("#customer-overview-template").html();
 
         var templateRibbon = Handlebars.compile(source);
         var templateDisplay = Handlebars.compile(sourceDisplay);
 
+        $("#loaderIcon").append("<img id='theImg' src='./img/preloader.gif'/>");
         $.ajax({
             url: navapp.clientLocation + getCustomerOverviewEP + "?id=" + navapp.id, //TO DO Get this from config
             //data: JSON.stringify(navapp),
@@ -197,9 +200,11 @@ $(document).ready(function () {
                 $("#ribbon-header").html(templateRibbon(data));
                 $("#main-container").append(templateDisplay(data));
 
+                $('#loaderIcon').empty();
+
                 var riskValues = new JustGage({
                     id: "riskValues",
-                    value: getRandomInt(0, 100),
+                    value: data.riskvalues,
                     min: 0,
                     max: 100,
                     title: "Risk Values",
@@ -282,6 +287,7 @@ $(document).ready(function () {
 
         $("#main-container").empty();
 
+        $("#loaderIcon").append("<img id='theImg' src='./img/preloader.gif'/>");
         $.ajax({
             url: navapp.clientLocation + getCallCenterLogEP + "?id=" + navapp.id, //TO DO Get this from config
             data: "",//JSON.stringify(stuffToSend),
@@ -290,6 +296,7 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
+                $('#loaderIcon').empty();
                 $("#ribbon-header").html(templateRibbon(data));
                 data.forEach(function (key) {
                     key.calllogdate = new Date(key.calllogdate);   //new Date(1382086394000)
@@ -311,6 +318,7 @@ $(document).ready(function () {
 
         $("#main-container").empty();
 
+        $("#loaderIcon").append("<img id='theImg' src='./img/preloader.gif'/>");
         $.ajax({
             url: navapp.clientLocation + getSocialMediaEP + "?id=" + navapp.id, //TO DO Get this from config
             data: "",//JSON.stringify(stuffToSend),
@@ -320,6 +328,7 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
+                $('#loaderIcon').empty();
                 $("#ribbon-header").html(templateRibbon(data));
                     data.forEach(function (key) {
                       key.post = key.post.replace("�", "'");
