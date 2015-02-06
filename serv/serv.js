@@ -214,8 +214,8 @@ app.configure('production', function () {
 
         var searchTerm = req.param('id');
 
-        var query = mc.solrEP.SOLR + mc.solrEP.searchAsYouType + searchTerm + "~" + "&wt=json&rows=15&indent=true";
-
+        var query = mc.solrEP.SOLR + mc.solrEP.searchAsYouType + searchTerm + "~1" + "&wt=json&rows=15&indent=true";
+   var aaa;
         try {
             request(query, function (error, response, socialdata) {
 

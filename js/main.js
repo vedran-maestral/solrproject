@@ -21,7 +21,7 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-
+                $("#table-body").empty().append(" <tr> </tr>");
                 numberOfRecords = data.numFound;
                 data.docs.forEach(function (key, index, whole) {
                     $('#navigator-table tr:last').before('' +
@@ -75,9 +75,19 @@ $(document).ready(function () {
             crossDomain: true,
             success: function (data) {
                 if (data.length === 0) {
+                    Messenger().post({
+                        message: "No match found",
+                        hideAfter: 2
+                    });
                     return;
                 }
                 $("#table-body").empty();
+
+                Messenger().post({
+                    message: "Found: " + data.length,
+                    hideAfter: 2
+                });
+
                 data.forEach(function (key, index, whole) {
                     $("#table-body").append(" <tr> </tr>");
                     $('#navigator-table tr:last').before('' +
@@ -201,7 +211,7 @@ $(document).ready(function () {
 
                 var trashHoldValues = new JustGage({
                     id: "trashHold",
-                    value: getRandomInt(0, 1000),
+                    value: getRandomInt(5, 100),
                     min: 0,
                     max: 100,
                     title: "Trashhold Value",
