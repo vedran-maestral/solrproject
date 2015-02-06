@@ -187,6 +187,31 @@ $(document).ready(function () {
                 $("#ribbon-header").html(templateRibbon(data));
                 $("#main-container").append(templateDisplay(data));
 
+                var riskValues = new JustGage({
+                    id: "riskValues",
+                    value: getRandomInt(0, 100),
+                    min: 0,
+                    max: 100,
+                    title: "Risk Values",
+                    label: "",
+                    shadowOpacity: 1,
+                    shadowSize: 0,
+                    shadowVerticalOffset: 10
+                });
+
+                var trashHoldValues = new JustGage({
+                    id: "trashHold",
+                    value: getRandomInt(0, 1000),
+                    min: 0,
+                    max: 100,
+                    title: "Trashhold Value",
+                    label: "",
+                    startAnimationTime: 2000,
+                    startAnimationType: ">",
+                    refreshAnimationTime: 1000,
+                    refreshAnimationType: "bounce"
+                });
+
                 //gauge graphics
                 var red = new JustGage({
                     id: "redIssues",
@@ -227,7 +252,9 @@ $(document).ready(function () {
                     ]
                 });
 
-
+                setInterval(function() {
+                    trashHoldValues.refresh(getRandomInt(0, 200));
+                }, 2500);
 
             }
         }).fail(function (err) {
