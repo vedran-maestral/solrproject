@@ -84,48 +84,39 @@ app.configure('production', function () {
                     var tempDataholder = JSON.parse(company);
                     customerOverview = tempDataholder.response.docs[0];
 
-                    //get statistics for call log
-                    request(queryNumber, function (error, response, count) {
-
+                    request(queryRed, function (error, response, redIssues) {
                         if (!error && response.statusCode === 200) {
-                            tempDataholder = JSON.parse(count);
-                            customerOverview.totalCountOfCallLogs = tempDataholder.response.numFound;
 
-                            request(queryRed, function (error, response, redIssues) {
+                            tempDataholder = JSON.parse(redIssues);
+                            customerOverview.redIssues = tempDataholder.response.numFound;
+
+                            request(queryGreen, function (error, response, greenIssues) {
                                 if (!error && response.statusCode === 200) {
 
-                                    tempDataholder = JSON.parse(redIssues);
-                                    customerOverview.redIssues = tempDataholder.response.numFound;
+                                    tempDataholder = JSON.parse(greenIssues);
+                                    customerOverview.greenIssues = tempDataholder.response.numFound;
 
-                                    request(queryGreen, function (error, response, greenIssues) {
+                                    request(queryYellow, function (error, response, yellowIssues) {
                                         if (!error && response.statusCode === 200) {
+                                            tempDataholder = JSON.parse(yellowIssues);
+                                            customerOverview.yellowIssues = tempDataholder.response.numFound;
 
-                                            tempDataholder = JSON.parse(greenIssues);
-                                            customerOverview.greenIssues = tempDataholder.response.numFound;
-
-                                            request(queryYellow, function (error, response, yellowIssues) {
+                                            request(queryLinkedin, function (error, response, linkedinPosts) {
                                                 if (!error && response.statusCode === 200) {
-                                                tempDataholder = JSON.parse(yellowIssues);
-                                                customerOverview.yellowIssues = tempDataholder.response.numFound;
+                                                    tempDataholder = JSON.parse(linkedinPosts);
+                                                    customerOverview.linkedinPosts = tempDataholder.response.numFound;
 
-                                                    request(queryLinkedin, function (error, response, linkedinPosts) {
+                                                    request(queryFacebook, function (error, response, facebookPosts) {
                                                         if (!error && response.statusCode === 200) {
-                                                            tempDataholder = JSON.parse(linkedinPosts);
-                                                            customerOverview.linkedinPosts = tempDataholder.response.numFound;
+                                                            tempDataholder = JSON.parse(facebookPosts);
+                                                            customerOverview.facebookPosts = tempDataholder.response.numFound;
 
-                                                            request(queryFacebook, function (error, response, facebookPosts) {
-                                                                if (!error && response.statusCode === 200) {
-                                                                    tempDataholder = JSON.parse(facebookPosts);
-                                                                    customerOverview.facebookPosts = tempDataholder.response.numFound;
+                                                            request(queryTwitter, function (error, response, twitterPosts) {
 
-                                                                    request(queryTwitter, function (error, response, twitterPosts) {
+                                                                tempDataholder = JSON.parse(twitterPosts);
+                                                                customerOverview.twitterPosts = tempDataholder.response.numFound;
 
-                                                                        tempDataholder = JSON.parse(twitterPosts);
-                                                                        customerOverview.twitterPosts = tempDataholder.response.numFound;
-
-                                                                        return res.send(customerOverview)
-                                                                    })
-                                                                }
+                                                                return res.send(customerOverview)
                                                             })
                                                         }
                                                     })
@@ -134,6 +125,7 @@ app.configure('production', function () {
                                         }
                                     })
                                 }
+
                             });
                         }
                         //return res.send(customerOverview); return res.send(customerOverview)

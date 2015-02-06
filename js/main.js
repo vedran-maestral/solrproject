@@ -184,11 +184,49 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-
                 $("#ribbon-header").html(templateRibbon(data));
                 $("#main-container").append(templateDisplay(data));
-                debugger;
-                $("#logquantity").text(data.totalCountOfCallLogs)
+
+                //gauge graphics
+                var red = new JustGage({
+                    id: "redIssues",
+                    value: data.redIssues,
+                    min: 0,
+                    max: 100,
+                    title: "Red Issues",
+                    levelColors: [
+                        "#ef1a1a",
+                        "#ef1a1a",
+                        "#ef1a1a"
+                    ]
+                });
+
+                var green = new JustGage({
+                    id: "greenIssues",
+                    value: data.greenIssues,
+                    min: 0,
+                    max: 100,
+                    title: "Green",
+                    levelColors: [
+                        "#7bdb1c",
+                        "#7bdb3c",
+                        "#7bdb4c"
+                    ]
+                });
+
+                var yellow = new JustGage({
+                    id: "yellowIssues",
+                    value: data.yellowIssues,
+                    min: 0,
+                    max: 100,
+                    title: "Yellow Issues",
+                    levelColors: [
+                        "#faff00",
+                        "#faff00",
+                        "#faff00"
+                    ]
+                });
+
 
 
             }
