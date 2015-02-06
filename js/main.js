@@ -5,7 +5,8 @@ $(document).ready(function () {
         getCallCenterLogEP = "getlogs",
         getSocialMediaEP = "getsocial",
         getSingleCompanyEP = "getsinglecompany",
-        getSearchAsYoutype = "searchasyoutype";
+        getSearchAsYoutype = "searchasyoutype",
+        getCallCenterStat = "getcalllogcount";
 
 
     function getAllCompanies() {
@@ -21,8 +22,7 @@ $(document).ready(function () {
             crossDomain: true,
             success: function (data) {
 
-                 numberOfRecords = data.numFound;
-
+                numberOfRecords = data.numFound;
                 data.docs.forEach(function (key, index, whole) {
                     $('#navigator-table tr:last').before('' +
                         '<tr id="' + key.id + '" class="table-row getnavobject"><td class="table-cell">' + key.companyname + '</td>' +
@@ -37,21 +37,19 @@ $(document).ready(function () {
 
         }).done(function () {
             $(".getnavobject").on("click", function (e) {
-
                 $("#maintabs").show();
-                console.log(e.currentTarget.id);
                 navapp.id = e.currentTarget.id;
+
+                Messenger().post({
+                    message: "Selected record ID - " + e.currentTarget.id + "<br>",
+                    hideAfter: 6
+                });
+
             });
             Messenger().post({
                 message: "Total records Found - " + numberOfRecords + "<br>" + "Displaying first 20",
                 hideAfter: 6
             });
-
-           /* for (var i=0; i < numberOfPages; i++){
-                var html;
-                html = "<a href='http://www.w3schools.com'>"+ i + "</a>" + " ";
-                $("#paginator").append(html);
-            }*/
         });
     }
 
@@ -66,7 +64,6 @@ $(document).ready(function () {
             getAllCompanies();
             return;
         }
-        debugger;
 
         $.ajax({
             url: navapp.clientLocation + getSearchAsYoutype + "?id=" + companyName, //TO DO Get this from config
@@ -77,7 +74,6 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-                debugger;
                 if (data.length === 0) {
                     return;
                 }
@@ -96,12 +92,11 @@ $(document).ready(function () {
         }).fail(function (err) {
 
         }).done(function () {
-            $(".getnavobject").on("click", function (e) {
 
+            $(".getnavobject").on("click", function (e) {
                 $("#maintabs").show();
                 console.log(e.currentTarget.id);
                 navapp.id = e.currentTarget.id;
-
                 Messenger().post({
                     message: "Selected - record with ID: " + navapp.id,
                     hideAfter: 6
@@ -143,11 +138,10 @@ $(document).ready(function () {
 
         }).done(function (key) {
             $(".getnavobject").on("click", function (e) {
-
                 $("#maintabs").show();
-                console.log(e.currentTarget.id);
                 navapp.id = e.currentTarget.id;
             });
+
             Messenger().post({
                 message: "Found - record with ID: " + key.id,
                 hideAfter: 6
@@ -164,7 +158,6 @@ $(document).ready(function () {
     $("#searchid-button").on("click", singleCompanySearch);
 
     $("#search-id-text").on("keyup", function (e) {
-        debugger;
         if (e.which === 13) {
             singleCompanySearch();
         }
@@ -177,7 +170,6 @@ $(document).ready(function () {
     function showCustomerOverview() {
 
         $("#main-container").empty();
-        var getCustomerOverview = "http://localhost/getallcompanies";
         var source = $("#ribbon-template").html();
         var sourceDisplay = $("#customer-overview-template").html();
 
@@ -192,8 +184,13 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
+
                 $("#ribbon-header").html(templateRibbon(data));
                 $("#main-container").append(templateDisplay(data));
+                debugger;
+                $("#logquantity").text(data.totalCountOfCallLogs)
+
+
             }
         }).fail(function (err) {
 
@@ -247,7 +244,6 @@ $(document).ready(function () {
             success: function (data) {
                 $("#ribbon-header").html(templateRibbon(data));
                 data.forEach(function (key) {
-                    debugger;
                     $("#main-container").append(templateDisplay(key));
                 });
             }

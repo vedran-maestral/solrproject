@@ -150,7 +150,8 @@
 
 <script id="ribbon-template" type="text/x-handlebars-template">
     <header>
-        Customer Name: {{companyname}} <br>
+        Company Name: {{companyname}} <br>
+        Customer Name: {{fname}} {{lname}}<br>
         Email: {{email}} <br>
         Phone: {{phone}}<br>
     </header>
@@ -161,9 +162,11 @@
 
 <script id="customer-overview-template" type="text/x-handlebars-template">
     <header>
-        Customer Name: {{fname}} {{lname}}<br>
         ID: {{id}}<br>
+        Customer Name: {{fname}} {{lname}}<br>
         Email: {{email}}<br>
+        Risk values: {{riskvalues}}<br>
+        Log Quantity: {{totalCountOfCallLogs}}
     </header>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
     <footer class='module-footer'>

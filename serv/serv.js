@@ -32,9 +32,8 @@ app.configure('production', function () {
     app.use(allowCrossDomain);
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-
     app.use(express.static(__dirname + './../', { maxAge: oneYear }));
-    console.log("SERVING PROUDLY ALL YOUR NEEDS !!!");
+
 
     /*    ***********************************
      ***** End points Starting Here********
@@ -64,18 +63,52 @@ app.configure('production', function () {
     app.get('/getcustomeroverview', function (req, res) {
 
         var companyId = req.param('id');
+        var tempDataholder = "";
+        var customerOverview = "";
 
         var query = mc.solrEP.SOLR + mc.solrEP.getCustomerOverview + companyId + "&wt=json&indent=true&rows=25";
+        var queryNumber = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId  + "&fq=isCompany:false&rows=1&wt=json&indent=true";
+        var something = "";
         try {
             request(query, function (error, response, company) {
 
                 if (!error && response.statusCode === 200) {
 
-                    var customerOverview = JSON.parse(company);
+                    var tempDataholder = JSON.parse(company);
+                    customerOverview = tempDataholder.response.docs[0];
 
-                    return res.send(customerOverview.response.docs[0]);
+                    //get statistics for call log
+                    request(queryNumber, function (error, response, count) {
+
+                        if (!error && response.statusCode === 200) {
+
+                            tempDataholder = JSON.parse(count);
+                            customerOverview.totalCountOfCallLogs = tempDataholder.response.numFound;
+
+                            return res.send(customerOverview);
+
+                        }
+
+
+
+
+                        if (!error && response.statusCode === 200) {
+                            return res.send(customerOverview);
+
+                        }
+
+
+                    });
+
+
+
+
+
+
+
+
                 } else {
-                    return res.send("Points of Light is currently not available. Please try later.", 500);
+                    return res.send("Error Getting Basic data.", 500);
                 }
             });
         }
@@ -87,7 +120,6 @@ app.configure('production', function () {
     app.get('/getlogs', function (req, res) {
 
         var companyId = req.param('id');
-//http://ec2-54-200-131-81.us-west-2.compute.amazonaws.com:8983/solr/select?q=companyid:1&wt=json&indent=true
         var query = mc.solrEP.SOLR + mc.solrEP.getCallLogs + companyId + "&fq=isCompany:false&rows=25&wt=json&indent=true"; // and is social=false;
         try {
             request(query, function (error, response, company) {
@@ -158,7 +190,7 @@ app.configure('production', function () {
 
         var searchTerm = req.param('id');
 
-        var query = mc.solrEP.SOLR + mc.solrEP.searchAsYouType + searchTerm + "~" + "&wt=json&rows=25&indent=true";
+        var query = mc.solrEP.SOLR + mc.solrEP.searchAsYouType + searchTerm + "~" + "&wt=json&rows=15&indent=true";
 
         try {
             request(query, function (error, response, socialdata) {
@@ -176,5 +208,30 @@ app.configure('production', function () {
             return res.send(err, 500);
         }
     });
+
+    app.get('/getcalllogcount', function (req, res) {
+
+        var companyId = req.param('id');
+
+        var query = mc.solrEP.SOLR + mc.solrEP.getCallCenterLogCount + companyId  + "&fq=isCompany:false&rows=1&wt=json&indent=true";
+
+        try {
+            request(query, function (error, response, logObject) {
+
+                if (!error && response.statusCode === 200) {
+                    var logObjectData = JSON.parse(logObject);
+
+                    return res.send(logObjectData.response.docs);
+                } else {
+                    return res.send("Points of Light is currently not available. Please try later.", 500);
+                }
+            });
+        }
+        catch (err) {
+            return res.send(err, 500);
+        }
+    });
+
+
 });
 app.listen(80);
