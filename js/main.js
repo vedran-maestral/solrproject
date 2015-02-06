@@ -282,6 +282,7 @@ $(document).ready(function () {
             success: function (data) {
                 $("#ribbon-header").html(templateRibbon(data));
                 data.forEach(function (key) {
+                    key.calllogdate = new Date(key.calllogdate);   //new Date(1382086394000)
                     $("#main-container").append(templateDisplay(key));
                 });
             }
@@ -298,6 +299,8 @@ $(document).ready(function () {
         var sourceDisplay = $("#social-media-template").html();
         var templateDisplay = Handlebars.compile(sourceDisplay);
 
+        $("#main-container").empty();
+
         $.ajax({
             url: navapp.clientLocation + getSocialMediaEP + "?id=" + navapp.id, //TO DO Get this from config
             data: "",//JSON.stringify(stuffToSend),
@@ -308,7 +311,8 @@ $(document).ready(function () {
             crossDomain: true,
             success: function (data) {
                 $("#ribbon-header").html(templateRibbon(data));
-                data.forEach(function (key) {
+                    data.forEach(function (key) {
+                      key.post = key.post.replace("�", "'");
                     $("#main-container").append(templateDisplay(key));
                 });
             }
