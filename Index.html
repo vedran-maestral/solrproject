@@ -42,11 +42,13 @@
                     <input id="search-id-text" type="text" class="form-control" placeholder="Search by id">
               <span class="input-group-btn">
               <button id="searchid-button" class="btn btn-default" type="button">
-                  <span  class="glyphicon glyphicon-search"></span>
+                  <span class="glyphicon glyphicon-search"></span>
               </button>
              </span>
-                </div><!-- /input-group -->
-            </div><!--col-6-->
+                </div>
+                <!-- /input-group -->
+            </div>
+            <!--col-6-->
             <div class="col-lg-3">
                 <div class="input-group custom-search-form">
                     <input id="search-text" type="text" class="form-control" placeholder="Start Typing Company">
@@ -55,8 +57,10 @@
                   <span class="glyphicon glyphicon-search"></span>
               </button>
              </span>
-                </div><!-- /input-group -->
-            </div><!--col-6-->
+                </div>
+                <!-- /input-group -->
+            </div>
+            <!--col-6-->
 
         </div>
     </div>
@@ -170,14 +174,36 @@
         Twitter Posts: {{twitterPosts}}<br>
 
         <div class="row">
-        <div class="col-xs-6">
-            <div id="riskValues" class="200x160px"></div>
-        </div>
+            <div class="col-xs-6">
+                <div id="riskValues" class="200x160px"></div>
+            </div>
             <div class="col-xs-6">
                 <div id="trashHold" class="200x160px"></div>
             </div>
         </div>
-        <div class="row">
+
+        <h5>Red Logs</h5>
+        <div style="background-color: red; background-image: none" class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{redIssues}}" aria-valuemin="0"
+                 aria-valuemax="100" style="width:{{redIssues}}%">{{redIssues}}
+            </div>
+        </div>
+
+        <h5>Yellow Logs</h5>
+        <div style="background-color: yellow; background-image: none" class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{yellowIssues}}" aria-valuemin="0"
+                 aria-valuemax="100" style="width:{{yellowIssues}}%">{{yellowIssues}}
+            </div>
+        </div>
+
+        <h5>Green Logs</h5>
+        <div style="background-color: green; background-image: none" class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{greenIssues}}" aria-valuemin="0"
+                 aria-valuemax="100" style="width:{{greenIssues}}%">{{greenIssues}}
+            </div>
+        </div>
+
+        <!--<div class="row">
             <div class="col-xs-4">
                 <div id="redIssues" class="200x160px"></div>
             </div>
@@ -187,7 +213,7 @@
             <div class="col-xs-4">
                 <div id="yellowIssues" class="200x160px"></div>
             </div>
-        </div>
+        </div>-->
 
         <div></div>
     </header>

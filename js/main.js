@@ -216,7 +216,7 @@ debugger;
 
                 var trashHoldValues = new JustGage({
                     id: "trashHold",
-                    value: getRandomInt(5, 100),
+                    value: 50,
                     min: 0,
                     max: 100,
                     title: "Trashhold Value",
@@ -228,7 +228,7 @@ debugger;
                 });
 
                 //gauge graphics
-                var red = new JustGage({
+             /*   var red = new JustGage({
                     id: "redIssues",
                     value: data.redIssues,
                     min: 0,
@@ -266,9 +266,9 @@ debugger;
                         "#faff00"
                     ]
                 });
-
+*/
                 setInterval(function() {
-                    trashHoldValues.refresh(getRandomInt(0, 200));
+                    trashHoldValues.refresh(getRandomInt(45, 50));
                 }, 2500);
 
             }
