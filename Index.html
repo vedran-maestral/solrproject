@@ -35,7 +35,7 @@
 
 </head>
 <body>
-<div class="navbar-form navbar-left" role="search">
+<div id="search-container" class="navbar-form navbar-left" role="search">
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
@@ -47,18 +47,14 @@
               </button>
              </span>
                 </div>
-                <!-- /input-group -->
             </div>
-            <!--col-6-->
             <div class="col-lg-3">
                 <div class="input-group custom-search-form">
                     <input id="search-text" type="text" class="form-control" placeholder="Start Typing Company">
               <span class="input-group-btn">
              </span>
                 </div>
-                <!-- /input-group -->
             </div>
-            <!--col-6-->
         </div>
     </div>
 </div>
@@ -85,7 +81,7 @@
 </div>
 </div>
 
-<div id="paginator"></div>
+<div id="data-holder"></div>
 
 <script>
     var navapp = {
@@ -93,54 +89,6 @@
         clientLocation: "http://localhost/"
     }
 </script>
-
-<footer>
-<!-- Tabs -->
-<div id="maintabs" style="display: none" class="col-md-12">
-    <ul class="servicesList">
-        <li id="customer-overview" data-toggle="modal" data-target="#myModal" class="col-md-4 col-sm-6 purple ">
-
-            <h3>Customer Overview</h3>
-
-            <p>Display: 1st & Last. ID, Email Address, Risk Values, Call Center incident#, date and severity and
-                resolution</p>
-        </li>
-        <li id="call-center" data-toggle="modal" data-target="#myModal" class="col-md-4 col-sm-6 pink">
-
-            <h3>Call Center</h3>
-
-            <p>Display Calllog#. call log date, call log comment, call log severity</p>
-        </li>
-        <li id="social-media" data-toggle="modal" data-target="#myModal" class="col-md-4 col-sm-6 blue">
-
-            <h3>Social Media</h3>
-
-            <p>Source, date post</p>
-        </li>
-    </ul>
-</div>
-</footer>
-
-
-<div class="modal fade " id="myModal">
-    <div class="modal-dialog">
-
-        <div class="modal-content" style="overflow-y: auto;height:90vh;">
-            <div class="modal-header modal-hdr">
-                <div id="loaderIcon" style="width: 40px!important; height: 40px!important"></div>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <div id="ribbon-header" class="ribbon-header"></div>
-            </div>
-            <div class="modal-body">
-                <div id="main-container" class="main-container">
-                </div>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
 <script src="js/main.js"></script>
 <script src="loader.js"></script>
@@ -162,9 +110,6 @@
 
 <script id="customer-overview-template" type="text/x-handlebars-template">
     <header>
-        <div></div>
-        <div> Customer Name: {{fname}} {{lname}}</div>
-        <div>Email: {{email}}</div>
         <div class="row">
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-primary">
@@ -289,6 +234,33 @@
     </footer>
 </script>
 
+
+<script id="call-center-main" type="text/x-handlebars-template">
+    <ul class="breadcrumb">
+        <li><a class="returntomain">Home</a> <span class="divider returntomain">/</span></li>
+        <li><a id="resetMainControlPanel" href="#">Main Control Panel</a> <span class="divider">/</span></li>
+        <li id="thirdlink" class="active"></li>
+    </ul> <div id="loaderIcon" style="width: 40px!important; height: 40px!important"></div>
+
+ <div id="ribbon-holder"></div>
+
+    <!-- Tabs -->
+    <div id="maintabs" class="col-md-12">
+        <ul class="servicesList">
+            <li id="customer-overview" class="col-md-4 col-sm-6 purple ">
+                <h3>Customer Overview</h3>
+            </li>
+            <li id="call-center" class="col-md-4 col-sm-6 pink">
+                <h3>Call Center</h3>
+            </li>
+            <li id="social-media"  class="col-md-4 col-sm-6 blue">
+                <h3>Social Media</h3>
+            </li>
+        </ul>
+    </div>
+<div id="currentdata"></div>
+</script>
+
 <script id="call-center-template" type="text/x-handlebars-template">
     <div class="cc-header">
         <div class="spacing">
@@ -310,7 +282,7 @@
 
 <script id="social-media-template" type="text/x-handlebars-template">
     <div class="cc-header">
-        <div>Source: {{source}}</div>
+        <div> Source: {{source}}</div>
         <div> Message: {{post}}</div>
     </div>
     <ul class='connections alt large-block-grid-2 suggestions-list'></ul>
