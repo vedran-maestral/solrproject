@@ -352,6 +352,7 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
+                debugger;
                 navapp.headerObject = data[0];
                 showMainCenterPanel();
             }

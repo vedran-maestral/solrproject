@@ -190,7 +190,7 @@ app.configure('production', function () {
 
         var companyId = req.param('id');
 
-        var query = mc.solrEP.SOLR + mc.solrEP.getSingleCompany + companyId + "&fq=isCompany:true&fl=fname,lname,id,email,companyname&wt=json&indent=true";
+        var query = mc.solrEP.SOLR + mc.solrEP.getSingleCompany + companyId + "&fq=isCompany:true&fl=fname,lname,id,email,companyname,phone&wt=json&indent=true";
 
         try {
             request(query, function (error, response, socialdata) {
