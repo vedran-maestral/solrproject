@@ -160,7 +160,6 @@ $(document).ready(function () {
     /***********************************
     ********Event Handlers Kingdom******
     ************************************/
-
     //Register event handlers
     $("#customer-overview").on("click", showCustomerOverview);
     $("#call-center").on("click", showCallCenterLogs);
