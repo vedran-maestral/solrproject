@@ -79,7 +79,7 @@
             <th>Last Name</th>
         </tr>
         </thead>
-        <tbody id="table-body">
+        <tbody id="table-body" class="member">
         <tr>
         </tr>
         </tbody>
@@ -163,7 +163,6 @@
 </script>
 
 <script id="customer-overview-template" type="text/x-handlebars-template">
-
     <header>
         <div></div>
         <div> Customer Name: {{fname}} {{lname}}</div>
@@ -230,10 +229,6 @@
                 </div>
             </div>
         </div>
-            <div> Linkedin posts: {{linkedinPosts}}</div>
-            <div> Facebook Posts: {{facebookPosts}}</div>
-            <div> Twitter Posts: {{twitterPosts}}</div>
-
             <div class="row">
                 <div class="col-xs-6">
                     <div id="riskValues" class="200x160px"></div>

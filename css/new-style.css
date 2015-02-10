@@ -181,3 +181,8 @@ footer {
 .part-of-body {
     padding-bottom: 210px;
 }
+
+.selected {
+    background-color: rgba(41, 103, 182, 0.89)!important;
+    color: #FFF!important;
+}

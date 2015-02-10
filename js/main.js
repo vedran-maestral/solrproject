@@ -39,7 +39,8 @@ $(document).ready(function () {
             $(".getnavobject").on("click", function (e) {
                 $("#maintabs").show();
                 navapp.id = e.currentTarget.id;
-
+                //Highkught the selected row
+                $(this).addClass('selected').siblings().removeClass("selected");
                 Messenger().post({
                     message: "Selected record ID - " + e.currentTarget.id + "<br>",
                     hideAfter: 6
@@ -107,6 +108,7 @@ $(document).ready(function () {
                 $("#maintabs").show();
                 console.log(e.currentTarget.id);
                 navapp.id = e.currentTarget.id;
+
                 Messenger().post({
                     message: "Selected - record with ID: " + navapp.id,
                     hideAfter: 6
@@ -163,6 +165,17 @@ $(document).ready(function () {
     $("#customer-overview").on("click", showCustomerOverview);
     $("#call-center").on("click", showCallCenterLogs);
     $("#social-media").on("click", showSocialMedia);
+
+
+    /*$("tbody tr").on("click", function() {
+        $(this).addClass('selected').siblings().removeClass("selected");
+    });*/
+
+
+   /* $("tbody tr").click(function() {
+        $(this).addClass('selected').siblings().removeClass("selected");
+    });*/
+
 
     $("#searchid-button").on("click", singleCompanySearch);
 
