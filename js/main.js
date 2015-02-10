@@ -34,10 +34,13 @@ $(document).ready(function () {
         }).fail(function (err) {
         }).done(function () {
             $(".getnavobject").on("click", function (e) {
-                $("#maintabs").show();
+                //$("#maintabs").show();
                 navapp.id = e.currentTarget.id;
+               //First - Show Second Screen
 
                 getRibbonHeader(e.currentTarget.id);
+                //showMainCenterPanel();
+
                 $(this).addClass('selected').siblings().removeClass("selected");
                 Messenger().post({
                     message: "Selected record ID - " + e.currentTarget.id + "<br>",
@@ -100,9 +103,11 @@ $(document).ready(function () {
 
         }).done(function () {
             $(".getnavobject").on("click", function (e) {
-                $("#maintabs").show();
-                console.log(e.currentTarget.id);
                 navapp.id = e.currentTarget.id;
+                //First - Show Second Screen
+
+                getRibbonHeader(e.currentTarget.id);
+                //showMainCenterPanel();
 
                 $(this).addClass('selected').siblings().removeClass("selected");
                 Messenger().post({
@@ -144,7 +149,6 @@ $(document).ready(function () {
             }
         }).fail(function (err) {
         }).done(function (key) {
-
             $(".getnavobject").on("click", function (e) {
                 $("#maintabs").show();
                 navapp.id = e.currentTarget.id;
@@ -158,12 +162,16 @@ $(document).ready(function () {
     }
 
     /***********************************
-    ********Event Handlers Kingdom******
-    ************************************/
-    //Register event handlers
-    $("#customer-overview").on("click", showCustomerOverview);
-    $("#call-center").on("click", showCallCenterLogs);
-    $("#social-media").on("click", showSocialMedia);
+     ********Event Handlers Kingdom******
+     ************************************/
+        //Register event handlers
+    $(document).on("click", "#customer-overview", showCustomerOverview);
+
+
+    $(document).on("click", "#call-center", showCallCenterLogs);
+
+    $(document).on("click","#social-media", showSocialMedia);
+
 
     $("#searchid-button").on("click", singleCompanySearch);
 
@@ -174,8 +182,20 @@ $(document).ready(function () {
     });
 
     $("#temp-button").on("click", searchAsYouType);
-
     $("#search-text").on("keyup", searchAsYouType);
+
+    $(document).on("click","#resetMainControlPanel", function(){
+        showMainCenterPanel();
+    });
+
+
+    $(document).on("click",".returntomain", function(){
+        $("#navigator-table").show();
+        $("#search-container").show();
+        $("#call-center-main").hide();
+        $("#data-holder").hide();
+    });
+
 
     function showCustomerOverview() {
 
@@ -196,8 +216,11 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
+
+                $("#thirdlink").text("Customer Overview");
+                $("#maintabs").hide();
                 $("#ribbon-header").html(templateRibbon(data));
-                $("#main-container").append(templateDisplay(data));
+                $("#currentdata").append(templateDisplay(data));
 
                 $('#loaderIcon').empty();
 
@@ -226,7 +249,7 @@ $(document).ready(function () {
                     refreshAnimationType: "bounce"
                 });
 
-          setInterval(function() {
+                setInterval(function () {
                     trashHoldValues.refresh(getRandomInt(45, 50));
                 }, 2500);
             }
@@ -246,8 +269,8 @@ $(document).ready(function () {
     };
 
     function showCallCenterLogs() {
-        var source = $("#ribbon-template").html(),
-            templateRibbon = Handlebars.compile(source),
+        var sourceRibbon = $("#ribbon-template").html(),
+            templateRibbon = Handlebars.compile(sourceRibbon),
             sourceDisplay = $("#call-center-template").html(),
             templateDisplay = Handlebars.compile(sourceDisplay),
             tempDate;
@@ -264,18 +287,19 @@ $(document).ready(function () {
             crossDomain: true,
             success: function (data) {
                 $('#loaderIcon').empty();
-                $("#ribbon-header").html(templateRibbon(navapp.headerObject));
+                $("#thirdlink").text("Call Center Logs");
+                $("#maintabs").hide();
+
                 data.forEach(function (key) {
                     tempDate = new Date(key.calllogdate);
                     key.calllogdate = tempDate.toUTCString();//tempDate.toDateString());
-
-                    $("#main-container").append(templateDisplay(key));
+                    //$("#data-holder").append(templateDisplay(key));
+                    $("#currentdata").append(templateDisplay(key));
                 });
             }
         }).fail(function (err) {
 
         }).done(function () {
-
         });
     };
 
@@ -298,11 +322,13 @@ $(document).ready(function () {
             crossDomain: true,
             success: function (data) {
                 $('#loaderIcon').empty();
+                $("#thirdlink").text("Social Media Logs");
+                $("#maintabs").hide();
 
                 $("#ribbon-header").html(templateRibbon(navapp.headerObject));
-                    data.forEach(function (key) {
-                      key.post = key.post.replace("�", "'");
-                    $("#main-container").append(templateDisplay(key));
+                data.forEach(function (key) {
+                    key.post = key.post.replace("�", "'");
+                    $("#currentdata").append(templateDisplay(key));
                 });
             }
         }).fail(function (err) {
@@ -313,10 +339,10 @@ $(document).ready(function () {
     };
 
     /*
-    These functions should be extenralized in separate module:
+     These functions should be extenralized in separate module:
      */
     function getRibbonHeader(companyId) {
-       //populate the app mofdel object with curren tcompany data
+        //populate the app mofdel object with curren tcompany data
         console.log(companyId);
         $.ajax({
             url: navapp.clientLocation + getSingleCompanyEP + "?id=" + parseInt(companyId), //TO DO Get this from config
@@ -327,7 +353,27 @@ $(document).ready(function () {
             crossDomain: true,
             success: function (data) {
                 navapp.headerObject = data[0];
+                showMainCenterPanel();
             }
         });
+    }
+
+    function showMainCenterPanel () {
+        $("#call-center-main").show();
+        $("#data-holder").show();
+
+        $('#data-holder').empty();
+        
+        $("#navigator-table").hide();
+        $("#search-container").hide();
+
+        var callCenterMain = $("#call-center-main").html(),
+            templateCcMain = Handlebars.compile(callCenterMain);
+
+        var ribbonTemplate = $("#ribbon-template").html(),
+            templateRibbon = Handlebars.compile(ribbonTemplate);
+
+        $("#data-holder").append(templateCcMain(navapp.headerObject));
+        $("#ribbon-holder").append(templateRibbon(navapp.headerObject));
     }
 });

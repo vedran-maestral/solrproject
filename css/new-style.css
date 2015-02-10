@@ -115,7 +115,6 @@ img {
     font-family: "museo-sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-weight: bold;
     font-size: small;
-
 }
 
 .modal-hdr {
@@ -179,7 +178,7 @@ footer {
 }
 
 .part-of-body {
-    padding-bottom: 210px;
+    padding-bottom: 50px;
 }
 
 .selected {
