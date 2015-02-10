@@ -156,7 +156,6 @@ $(document).ready(function () {
                 message: "Found - record with ID: " + key.id,
                 hideAfter: 6
             });
-
         });
     }
 
@@ -181,7 +180,6 @@ $(document).ready(function () {
 
         $("#main-container").empty();
 
-
         var source = $("#ribbon-template").html();
         var sourceDisplay = $("#customer-overview-template").html();
 
@@ -197,7 +195,6 @@ $(document).ready(function () {
             dataType: "json",
             crossDomain: true,
             success: function (data) {
-                debugger;
                 $("#ribbon-header").html(templateRibbon(data));
                 $("#main-container").append(templateDisplay(data));
 
@@ -281,10 +278,11 @@ $(document).ready(function () {
     };
 
     function showCallCenterLogs() {
-        var source = $("#ribbon-template").html();
-        var templateRibbon = Handlebars.compile(source);
-        var sourceDisplay = $("#call-center-template").html();
-        var templateDisplay = Handlebars.compile(sourceDisplay);
+        var source = $("#ribbon-template").html(),
+            templateRibbon = Handlebars.compile(source),
+            sourceDisplay = $("#call-center-template").html(),
+            templateDisplay = Handlebars.compile(sourceDisplay),
+            tempDate;
 
         $("#main-container").empty();
 
@@ -300,7 +298,9 @@ $(document).ready(function () {
                 $('#loaderIcon').empty();
                 $("#ribbon-header").html(templateRibbon(data));
                 data.forEach(function (key) {
-                    key.calllogdate = new Date(key.calllogdate);   //new Date(1382086394000)
+                    tempDate = new Date(key.calllogdate);
+                    key.calllogdate = tempDate.toUTCString();//tempDate.toDateString());
+
                     $("#main-container").append(templateDisplay(key));
                 });
             }
@@ -312,10 +312,10 @@ $(document).ready(function () {
     };
 
     function showSocialMedia() {
-        var source = $("#ribbon-template").html();
-        var templateRibbon = Handlebars.compile(source);
-        var sourceDisplay = $("#social-media-template").html();
-        var templateDisplay = Handlebars.compile(sourceDisplay);
+        var source = $("#ribbon-template").html(),
+            templateRibbon = Handlebars.compile(source),
+            sourceDisplay = $("#social-media-template").html(),
+            templateDisplay = Handlebars.compile(sourceDisplay);
 
         $("#main-container").empty();
 

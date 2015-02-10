@@ -1,14 +1,3 @@
-/**
- * Created with JetBrains WebStorm.
- * User: VedranMa
- * Date: 12/2/13
- * Time: 12:28 PM
- * DEVELOPMENT ENVIRONMENT SETTINGS
- * Intent is to use single Configuration file for all project requirements.
- * Please feel free to use/expand this config to your requirements,
- * please keep in mind that other configuration files MUST BE updated
- */
-
 "use strict";
 
 module.exports = {
