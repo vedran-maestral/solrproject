@@ -233,7 +233,7 @@ app.configure('production', function () {
         }
     });
 
-    app.get('/getcalllogcount', function (req, res) {
+    app.get('/getcompanyheaderdata', function (req, res) {
 
         var companyId = req.param('id');
 
